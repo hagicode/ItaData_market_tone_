@@ -275,12 +275,11 @@ table.dataframe td {text-align: right}
 
 # # 目次の作成
 st.markdown('''
-# Sections
-- [Section 1](#section-1)
-- [Section 2](#section-2)
+- [海運業](#section-1)
+- [電力](#section-2)
 ''', unsafe_allow_html=True)
 
-st.subheader('Section 1',anchor = "section-1")
+st.subheader('海運業',anchor = "section-1")
 
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
@@ -336,11 +335,7 @@ with col5:
     # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
-# # セクション2
-# st.header("セクション2")
-# st.write("ここに別の内容を記述します。")
-
-st.write("電力")
+st.subheader('電力',anchor = "section-2")
 #dfは9000sのみ
 l_denryoku = ["9501","9503","9508","9509"]
 # p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
