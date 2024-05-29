@@ -380,22 +380,22 @@ with col3:
 
 with col4:
     code4 = l_denryoku[3]
-    ShowedTime3 = datetime_obj
-    Ita3 = ItaResize(df_9000.loc[code3].loc[ShowedTime1],ItaSize_str_)
+    ShowedTime4 = datetime_obj
+    Ita4 = ItaResize(df_9000.loc[code4].loc[ShowedTime1],ItaSize_str_)
     try:
-        st.write("銘柄コード：",code3,"時刻",ShowedTime3)
-        st.table(Ita3[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.table(Ita3[1].style.set_table_styles(styles2).format(custom_format1_2))
+        st.write("銘柄コード：",code4,"時刻",ShowedTime3)
+        st.table(Ita4[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita4[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
         st.write("時刻データなし")
 with col5:
     code5 = l_denryoku[4]
-    ShowedTime3 = datetime_obj
-    Ita3 = ItaResize(df_9000.loc[code3].loc[ShowedTime1],ItaSize_str_)
+    ShowedTime5 = datetime_obj
+    Ita5 = ItaResize(df_9000.loc[code5].loc[ShowedTime1],ItaSize_str_)
     try:
-        st.write("銘柄コード：",code3,"時刻",ShowedTime3)
-        st.table(Ita3[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.table(Ita3[1].style.set_table_styles(styles2).format(custom_format1_2))
+        st.write("銘柄コード：",code5,"時刻",ShowedTime3)
+        st.table(Ita5[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita5[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
         st.write("時刻データなし")
 
