@@ -293,7 +293,7 @@ with col1:
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.dataframe(Ita1[1])
 
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
