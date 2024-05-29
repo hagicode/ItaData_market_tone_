@@ -275,12 +275,12 @@ table.dataframe td {text-align: right}
 
 # # 目次の作成
 st.markdown('''
-## Sections
-- [Section 1](##section-1)
-- [Section 2](##section-2)
+# Sections
+- [Section 1](#section-1)
+- [Section 2](#section-2)
 ''', unsafe_allow_html=True)
 
-st.subheader('Section 1')
+st.header('Section 1')
 
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
