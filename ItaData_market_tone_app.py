@@ -21,12 +21,9 @@ def format_text(text):
   text = neologdn.normalize(text)
   return text
 
-
-#OHLC
-#l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-st.write(l2)
+#st.write(l2)
 
 # Github
 # https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
@@ -83,8 +80,6 @@ date = datetime.strptime(date_str, '%y%m%d').date()
 
 
 #ファイル検索
-#l1_in = [s for s in l1 if date_str in s][0]
-#l2_in = [s for s in l2 if code in s][0]
 
 if str(code).startswith('1'):
     filename = [f for f in l2 if "1000s" in f and date_str in f][0]
@@ -105,13 +100,10 @@ elif str(code).startswith('8'):
 elif str(code).startswith('9'):
     filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
 
-#OHLC
-#p1 = pathlib.Path(l1_in)
-#df_ohlc = pd.read_parquet(p1).loc[code]
 
 #Ita
 p2 = pathlib.Path(filename)
-df = pd.read_parquet(p2).loc[code]
+df_all = pd.read_parquet(p2)
 
 
 #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
@@ -248,9 +240,11 @@ dict(selector="td", props=td_props2)
 
 
 
-
+# 小数点以下2桁まで表示
 def custom_format1(x):
     return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
+
+# 桁区切り表示
 def custom_format2(x):
     return '{:,}'.format(x) if isinstance(x, int) else str(x)
 
@@ -263,43 +257,57 @@ table.dataframe td {text-align: right}
 </style>
 """
 
-# 小数点以下2桁まで表示
 
-col1,col2,col3,col4,col5 = st.columns(5)
+# 目次の作成
+st.title("目次")
+st.markdown("- 海運業\n- セクション2")
+
+
+# セクション1
+st.header("海運業")
+st.write("ここに内容を記述します。")
+
+col1,col2,col3 = st.columns(3)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
-    ShowedTime1 = datetime_obj - timedelta(minutes=10)
+    code1 = "9101"
+    ShowedTime1 = datetime_obj
     try:
-        st.write("銘柄コード：",code,"時刻",ShowedTime1)
-        st.table(ItaResize(df.loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.write("銘柄コード：",code1,"時刻",ShowedTime1)
+        st.table(ItaResize(df_all.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
+    code2 = "9102"
+    ShowedTime2 = datetime_obj
     try:
-        ShowedTime2 = datetime_obj - timedelta(minutes=5)
-        st.write("銘柄コード：",code,"時刻",ShowedTime2)
-        st.table(ItaResize(df.loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.write("銘柄コード：",code2,"時刻",ShowedTime2)
+        st.table(ItaResize(df_all.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
     except:
         st.write("時刻データなし")
 
 with col3:
+    code3 = "9107"
     ShowedTime3 = datetime_obj
-    st.write("銘柄コード：",code,"時刻",ShowedTime3)
-    st.table(ItaResize(df.loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+    st.write("銘柄コード：",code3,"時刻",ShowedTime3)
+    st.table(ItaResize(df_all.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
     #st.table(ItaResize(df.loc[ShowedTime3]).style.set_table_styles(styles).format(custom_format))
 
-with col4:
-    ShowedTime4 = datetime_obj + timedelta(minutes=5)
-    st.write("銘柄コード：",code,"時刻",ShowedTime4)
-    st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
-with col5:
-    ShowedTime5 = datetime_obj + timedelta(minutes=10)
-    st.write("銘柄コード：",code,"時刻",ShowedTime5)
-    st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+# with col4:
+#     ShowedTime4 = datetime_obj + timedelta(minutes=5)
+#     st.write("銘柄コード：",code,"時刻",ShowedTime4)
+#     st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+# with col5:
+#     ShowedTime5 = datetime_obj + timedelta(minutes=10)
+#     st.write("銘柄コード：",code,"時刻",ShowedTime5)
+#     st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
+# セクション2
+st.header("セクション2")
+st.write("ここに別の内容を記述します。")
 
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
