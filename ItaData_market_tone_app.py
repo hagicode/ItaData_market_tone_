@@ -297,26 +297,28 @@ with col1:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
         st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1_2))
-
-        #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
     code2 = l_kaiun[1]
     ShowedTime2 = datetime_obj
+    Ita2 = ItaResize(df_9000.loc[code2].loc[ShowedTime1],ItaSize_str_)
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
-        st.table(ItaResize(df_9000.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita2[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita2[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
         st.write("時刻データなし")
 
 with col3:
     code3 = l_kaiun[2]
     ShowedTime3 = datetime_obj
+    Ita3 = ItaResize(df_9000.loc[code3].loc[ShowedTime1],ItaSize_str_)
     try:
         st.write("銘柄コード：",code3,"時刻",ShowedTime3)
-        st.table(ItaResize(df_9000.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita3[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita3[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
         st.write("時刻データなし")
 
@@ -344,16 +346,16 @@ l_denryoku = ["9501","9503","9508","9509"]
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
-    code1 = l_denryoku[0]
+    code1 = l_denryoku[1]
     ShowedTime1 = datetime_obj
+    Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_)
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.write("東電のみ値動き違うため注意")
-        #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
+        st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
         st.write("時刻データなし")
-
+        
 with col2:
     code2 = l_denryoku[1]
     ShowedTime2 = datetime_obj
