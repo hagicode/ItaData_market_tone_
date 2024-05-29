@@ -124,8 +124,6 @@ def ItaResize(df,ita_num=5):
     if df_Ita_["値段"].apply(lambda x: x.is_integer()).all():
         df_Ita_["値段"] = df_Ita_["値段"].astype(int)
     market_diff = (df_market["買数量"]-df_market["売数量"]).iloc[0]
-    #一般化したパラメータ
-    market_div = df_market["買数量"].iloc[0]/df_market["売数量"].iloc[0]
     
     # 初期化
     ask_center = df_Ita_["売数量"].dropna(how = "any").index[-1]
@@ -188,12 +186,18 @@ def ItaResize(df,ita_num=5):
     df____ = df___.fillna(-1)
     df_____ = df____.astype({"売数量":int,"買数量":int,"売件数":int,"買件数":int}).replace(-1,"")
     
-    ##修正中
+    #一般化したパラメータ
+    market_div = df_market["買数量"].iloc[0]/df_market["売数量"].iloc[0]
+ 
     ask_total = df_Ita_.iloc[ask_max:bid_max]["売数量"].sum()+ask_over
     bid_total = df_Ita_.iloc[ask_max:bid_max]["買数量"].sum()+bid_under
     bid_over_ask = bid_total / ask_total
-    
-    return df_____ ,market_div , bid_over_ask
+
+    div_data = pd.DataFrame({
+    '成行比率(買/売)': market_div,
+    '累計比率(買/売)': bid_over_ask,
+    })
+    return df_____ ,div_data
 
 
 time_str = st.select_slider(
@@ -288,8 +292,7 @@ with col1:
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.write("成行比率(買/売)",round(Ita1[1],2))
-        st.write("累計比率(買/売)",round(Ita1[2],2))
+        st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
 
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
