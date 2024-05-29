@@ -258,14 +258,14 @@ table.dataframe td {text-align: right}
 """
 
 
-# 目次の作成
-st.title("目次")
-st.markdown("- 海運業\n- セクション2")
+# # 目次の作成
+# st.title("目次")
+# st.markdown("- 海運業\n- セクション2")
 
 
-# セクション1
-st.header("海運業")
-st.write("ここに内容を記述します。")
+# # セクション1
+# st.header("海運業")
+# st.write("ここに内容を記述します。")
 
 col1,col2,col3 = st.columns(3)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
