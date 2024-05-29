@@ -84,7 +84,7 @@ date = datetime.strptime(date_str, '%y%m%d').date()
 
 #ファイル検索
 #l1_in = [s for s in l1 if date_str in s][0]
-l2_in = [s for s in l2 if code in s][0]
+#l2_in = [s for s in l2 if code in s][0]
 
 if str(code).startswith('1'):
     filename = [f for f in l2 if "1000s" in f and date_str in f][0]
