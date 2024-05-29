@@ -23,7 +23,7 @@ def format_text(text):
 
 
 #OHLC
-l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
+#l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
 
@@ -82,8 +82,8 @@ date = datetime.strptime(date_str, '%y%m%d').date()
 
 
 #ファイル検索
-l1_in = [s for s in l1 if date_str in s][0]
-#l2_in = [s for s in l2 if code in s][0]
+#l1_in = [s for s in l1 if date_str in s][0]
+l2_in = [s for s in l2 if code in s][0]
 
 if str(code).startswith('1'):
     filename = [f for f in l2 if "1000s" in f and date_str in f][0]
@@ -105,8 +105,8 @@ elif str(code).startswith('9'):
     filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
 
 #OHLC
-p1 = pathlib.Path(l1_in)
-df_ohlc = pd.read_parquet(p1).loc[code]
+#p1 = pathlib.Path(l1_in)
+#df_ohlc = pd.read_parquet(p1).loc[code]
 
 #Ita
 p2 = pathlib.Path(filename)
