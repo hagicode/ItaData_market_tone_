@@ -252,9 +252,12 @@ dict(selector="td", props=td_props2)
 
 
 
-# 小数点以下2桁まで表示
+# 小数点以下1桁まで表示
 def custom_format1(x):
     return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
+# 小数点以下2桁まで表示
+def custom_format1_2(x):
+    return '{:.2f}'.format(x) if isinstance(x, float) else str(x)
 
 # 桁区切り表示
 def custom_format2(x):
@@ -293,7 +296,7 @@ with col1:
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1))
+        st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1_2))
 
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
