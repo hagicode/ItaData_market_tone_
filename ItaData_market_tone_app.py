@@ -320,7 +320,7 @@ with col5:
 
 st.write("電力")
 #dfは9000sのみ
-l_denryoku = ["9503","9508","9509","9501"]
+l_denryoku = ["9501","9503","9508","9509"]
 # p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
 # df_9000 = pd.read_parquet(p_9000)
 col1,col2,col3,col4,col5 = st.columns(5)
@@ -331,6 +331,7 @@ with col1:
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.write("東電のみ値動き違うため注意")
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
@@ -353,13 +354,13 @@ with col3:
     except:
         st.write("時刻データなし")
 
-with col3:
+with col4:
     code4 = l_denryoku[3]
     ShowedTime3 = datetime_obj
     try:
         st.write("銘柄コード：",code4,"時刻",ShowedTime3)
         st.table(ItaResize(df_9000.loc[code4].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.write("東電のみ傾向違うため注意")
+
     except:
         st.write("時刻データなし")
         
