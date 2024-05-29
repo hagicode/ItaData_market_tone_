@@ -294,7 +294,7 @@ with col2:
         st.write("時刻データなし")
 
 with col3:
-    code3 = l_kaiun[3]
+    code3 = l_kaiun[2]
     ShowedTime3 = datetime_obj
     try:
         st.write("銘柄コード：",code3,"時刻",ShowedTime3)
@@ -345,7 +345,7 @@ with col2:
         st.write("時刻データなし")
 
 with col3:
-    code3 = l_denryoku[3]
+    code3 = l_denryoku[2]
     ShowedTime3 = datetime_obj
     try:
         st.write("銘柄コード：",code3,"時刻",ShowedTime3)
@@ -354,7 +354,7 @@ with col3:
         st.write("時刻データなし")
 
 with col3:
-    code4 = l_denryoku[4]
+    code4 = l_denryoku[3]
     ShowedTime3 = datetime_obj
     try:
         st.write("銘柄コード：",code4,"時刻",ShowedTime3)
