@@ -267,7 +267,7 @@ table.dataframe td {text-align: right}
 # st.header("海運業")
 # st.write("ここに内容を記述します。")
 
-col1,col2,col3 = st.columns(3)
+col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = "9101"
@@ -280,7 +280,7 @@ with col1:
         st.write("時刻データなし")
 
 with col2:
-    code2 = "9102"
+    code2 = "9104"
     ShowedTime2 = datetime_obj
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
@@ -295,14 +295,16 @@ with col3:
     st.table(ItaResize(df_all.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
     #st.table(ItaResize(df.loc[ShowedTime3]).style.set_table_styles(styles).format(custom_format))
 
-# with col4:
-#     ShowedTime4 = datetime_obj + timedelta(minutes=5)
-#     st.write("銘柄コード：",code,"時刻",ShowedTime4)
-#     st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
-# with col5:
-#     ShowedTime5 = datetime_obj + timedelta(minutes=10)
-#     st.write("銘柄コード：",code,"時刻",ShowedTime5)
-#     st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+with col4:
+    # ShowedTime4 = datetime_obj + timedelta(minutes=5)
+    # st.write("銘柄コード：",code,"時刻",ShowedTime4)
+    # st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+    pass
+with col5:
+    pass
+    # ShowedTime5 = datetime_obj + timedelta(minutes=10)
+    # st.write("銘柄コード：",code,"時刻",ShowedTime5)
+    # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
 # セクション2
