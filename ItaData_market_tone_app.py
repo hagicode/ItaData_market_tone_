@@ -268,40 +268,38 @@ table.dataframe td {text-align: right}
 # st.write("ここに内容を記述します。")
 
 st.write("海運業")
-
+#dfは9000sのみ
+p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
+df_9000 = pd.read_parquet(p_9000)
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = "9101"
-    p1 = pathlib.Path(seachfile(code1,l2,date_str))
-    df1 = pd.read_parquet(p1)
     ShowedTime1 = datetime_obj
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.table(ItaResize(df1.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
     code2 = "9104"
-    p2 = pathlib.Path(seachfile(code2,l2,date_str))
-    df2 = pd.read_parquet(p2)
     ShowedTime2 = datetime_obj
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
-        st.table(ItaResize(df2.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df_9000.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
     except:
         st.write("時刻データなし")
 
 with col3:
     code3 = "9107"
-    p3 = pathlib.Path(seachfile(code3,l2,date_str))
-    df3 = pd.read_parquet(p3)
     ShowedTime3 = datetime_obj
-    st.write("銘柄コード：",code3,"時刻",ShowedTime3)
-    st.table(ItaResize(df3.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-    #st.table(ItaResize(df.loc[ShowedTime3]).style.set_table_styles(styles).format(custom_format))
+    try:
+        st.write("銘柄コード：",code3,"時刻",ShowedTime3)
+        st.table(ItaResize(df_9000.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+    except:
+        st.write("時刻データなし")
 
 with col4:
     # ShowedTime4 = datetime_obj + timedelta(minutes=5)
