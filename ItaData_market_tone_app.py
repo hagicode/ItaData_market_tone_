@@ -269,31 +269,32 @@ table.dataframe td {text-align: right}
 
 st.write("海運業")
 #dfは9000sのみ
+l_kaiun = ["9101","9104","9107"]
 p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
 df_9000 = pd.read_parquet(p_9000)
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
-    code1 = "9101"
+    code1 = l_kaiun[0]
     ShowedTime1 = datetime_obj
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
-    code2 = "9104"
+    code2 = l_kaiun[1]
     ShowedTime2 = datetime_obj
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
-        st.table(ItaResize(df_9000.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df_9000.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
     except:
         st.write("時刻データなし")
 
 with col3:
-    code3 = "9107"
+    code3 = l_kaiun[3]
     ShowedTime3 = datetime_obj
     try:
         st.write("銘柄コード：",code3,"時刻",ShowedTime3)
@@ -313,48 +314,60 @@ with col5:
     # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
-# セクション2
-st.header("セクション2")
-st.write("ここに別の内容を記述します。")
+# # セクション2
+# st.header("セクション2")
+# st.write("ここに別の内容を記述します。")
 
+st.write("電力")
+#dfは9000sのみ
+l_denryoku = ["9503","9508","9509","9501"]
+# p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
+# df_9000 = pd.read_parquet(p_9000)
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
-    ShowedTime1 = datetime_obj - timedelta(minutes=10)
+    code1 = l_denryoku[0]
+    ShowedTime1 = datetime_obj
     try:
-        st.write("銘柄コード：",code,"時刻",ShowedTime1)
-        st.table(ItaResize(df.loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.write("銘柄コード：",code1,"時刻",ShowedTime1)
+        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
+    code2 = l_denryoku[1]
+    ShowedTime2 = datetime_obj
     try:
-        ShowedTime2 = datetime_obj - timedelta(minutes=5)
-        st.write("銘柄コード：",code,"時刻",ShowedTime2)
-        st.table(ItaResize(df.loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.write("銘柄コード：",code2,"時刻",ShowedTime2)
+        st.table(ItaResize(df_9000.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
     except:
         st.write("時刻データなし")
 
 with col3:
+    code3 = l_denryoku[3]
     ShowedTime3 = datetime_obj
-    st.write("銘柄コード：",code,"時刻",ShowedTime3)
-    st.table(ItaResize(df.loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-    #st.table(ItaResize(df.loc[ShowedTime3]).style.set_table_styles(styles).format(custom_format))
+    try:
+        st.write("銘柄コード：",code3,"時刻",ShowedTime3)
+        st.table(ItaResize(df_9000.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+    except:
+        st.write("時刻データなし")
 
-with col4:
-    ShowedTime4 = datetime_obj + timedelta(minutes=5)
-    st.write("銘柄コード：",code,"時刻",ShowedTime4)
-    st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+with col3:
+    code4 = l_denryoku[4]
+    ShowedTime3 = datetime_obj
+    try:
+        st.write("銘柄コード：",code4,"時刻",ShowedTime3)
+        st.table(ItaResize(df_9000.loc[code4].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.write("東電のみ傾向違うため注意")
+    except:
+        st.write("時刻データなし")
+        
 with col5:
-    ShowedTime5 = datetime_obj + timedelta(minutes=10)
-    st.write("銘柄コード：",code,"時刻",ShowedTime5)
-    st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
-
-
-
-
-
+    pass
+    # ShowedTime5 = datetime_obj + timedelta(minutes=10)
+    # st.write("銘柄コード：",code,"時刻",ShowedTime5)
+    # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
 
