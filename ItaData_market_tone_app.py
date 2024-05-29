@@ -208,7 +208,7 @@ time_str = st.select_slider(
 time = datetime.strptime(time_str, '%H:%M').time()
 # 日付と時間を結合してdatetimeオブジェクトを作成
 datetime_obj = datetime.combine(date, time)
-datetime_obj_ = datetime_obj.strftime('%Y/%m/%d %H:%M')
+#datetime_obj_ = datetime_obj.strftime('%Y/%m/%d %H:%M')
 
 
 
@@ -295,8 +295,7 @@ with col1:
     ShowedTime1 = datetime_obj
     Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_)
     try:
-        st.write(code1,":",name1)
-        st.write("時刻",datetime_obj_)
+        st.write(code1,":",name1,"(",datetime_obj,")")
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
         st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
