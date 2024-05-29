@@ -280,7 +280,7 @@ st.markdown('''
 - [Section 2](#section-2)
 ''', unsafe_allow_html=True)
 
-st.header('Section 1')
+st.subheader('Section 1',anchor = "section-1")
 
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
