@@ -125,7 +125,7 @@ def ItaResize(df,ita_num=5):
         df_Ita_["値段"] = df_Ita_["値段"].astype(int)
     market_diff = (df_market["買数量"]-df_market["売数量"]).iloc[0]
     #一般化したパラメータ
-    market_div = df_market["買数量"]/df_market["売数量"].iloc[0]
+    market_div = df_market["買数量"].iloc[0]/df_market["売数量"].iloc[0]
     
     # 初期化
     ask_center = df_Ita_["売数量"].dropna(how = "any").index[-1]
@@ -288,7 +288,8 @@ with col1:
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-        st.write(Ita1[0],Ita1[1],Ita1[2])
+        st.write("成行比率(買/売)",round(Ita1[1],2))
+        st.write("累計比率(買/売)",round(Ita1[2]))
 
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
