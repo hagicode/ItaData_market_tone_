@@ -196,7 +196,7 @@ def ItaResize(df,ita_num=5):
     div_data = pd.DataFrame({
     '成行比率(買/売)': market_div,
     '累計比率(買/売)': bid_over_ask,
-    },index=0).T.reset_index()
+    },index=[0]).T.reset_index()
     
     return df_____ ,div_data
 
