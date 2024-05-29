@@ -124,7 +124,9 @@ def ItaResize(df,ita_num=5):
     if df_Ita_["値段"].apply(lambda x: x.is_integer()).all():
         df_Ita_["値段"] = df_Ita_["値段"].astype(int)
     market_diff = (df_market["買数量"]-df_market["売数量"]).iloc[0]
-
+    #一般化したパラメータ
+    market_div = df_market["買数量"]/df_market["売数量"].iloc[0]
+    
     # 初期化
     ask_center = df_Ita_["売数量"].dropna(how = "any").index[-1]
     bid_center = df_Ita_["買数量"].dropna(how = "any").index[0]
@@ -160,8 +162,8 @@ def ItaResize(df,ita_num=5):
 
     ask_over = df_Ita_.iloc[:ask_max]["売数量"].sum()
     ask_over_order = df_Ita_.iloc[:ask_max]["売件数"].sum()
-    bid_over = df_Ita_.iloc[bid_max:]["買数量"].sum()
-    bid_over_order = df_Ita_.iloc[bid_max:]["買件数"].sum()
+    bid_under = df_Ita_.iloc[bid_max:]["買数量"].sum()
+    bid_under_order = df_Ita_.iloc[bid_max:]["買件数"].sum()
 
 
     # 一番上に追加する行を定義します(OVER)
@@ -178,15 +180,20 @@ def ItaResize(df,ita_num=5):
         '売件数': [np.nan],
         '売数量': [np.nan],
         '値段': ["UNDER"],
-        '買数量': [bid_over],
-        '買件数': [bid_over_order]
+        '買数量': [bid_under],
+        '買件数': [bid_under_order]
     }, index=[1000])
 
     df___ = pd.concat([df_market,top_row, df_Ita_.iloc[ask_max:bid_max], bottom_row])
     df____ = df___.fillna(-1)
     df_____ = df____.astype({"売数量":int,"買数量":int,"売件数":int,"買件数":int}).replace(-1,"")
     
-    return df_____
+    ##修正中
+    ask_total = df_Ita_.iloc[ask_max:bid_max]["売数量"].sum()+ask_over
+    bid_total = df_Ita_.iloc[ask_max:bid_max]["買数量"].sum()+bid_under
+    bid_over_ask = bid_total / ask_total
+    
+    return df_____ ,market_div , bid_over_ask
 
 
 time_str = st.select_slider(
@@ -277,9 +284,12 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = l_kaiun[0]
     ShowedTime1 = datetime_obj
+    Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_)
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.table(ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+        st.write(Ita1[0],Ita1[1],Ita1[2])
+
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
