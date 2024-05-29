@@ -276,18 +276,18 @@ table.dataframe td {text-align: right}
 # # 目次の作成
 # st.title("目次")
 # st.markdown("- 海運業\n- セクション2")
-st.markdown('''
-# Sections
-- ["海運業"](#anchor1)
-- [Section 2](#section-2)
-''', unsafe_allow_html=True)
+st.markdown("""
+            <a href='#section-1' style='font-size: 12px;'>海運業</a>"
+            <a href='#section-2' style='font-size: 12px;'>電力</a>"
+            """,unsafe_allow_html=True)
 
 # # セクション1
 # st.header("海運業")
 # st.write("ここに内容を記述します。")
 #st.header('Section 1')
 #st.write("海運業")
-st.markdown('<a id="anchor1"></a>1. 概要')
+st.markdown("<h2 id='section-1'style='font-size: 12px;'>海運業</h2>", unsafe_allow_html=True)
+st.markdown("<h2 id='section-2'style='font-size: 12px;'>電力</h2>", unsafe_allow_html=True)
 
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
