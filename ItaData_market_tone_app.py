@@ -278,7 +278,7 @@ table.dataframe td {text-align: right}
 # st.markdown("- 海運業\n- セクション2")
 st.markdown('''
 # Sections
-- ["海運業"](#section-1)
+- ["海運業"](#anchor1)
 - [Section 2](#section-2)
 ''', unsafe_allow_html=True)
 
@@ -287,7 +287,8 @@ st.markdown('''
 # st.write("ここに内容を記述します。")
 #st.header('Section 1')
 #st.write("海運業")
-st.subheader("海運業")
+st.markdown('<a id="anchor1"></a>1. 概要')
+
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
 p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
