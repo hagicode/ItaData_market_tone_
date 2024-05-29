@@ -291,11 +291,12 @@ col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = l_kaiun[0]
+    name1 = DB_serch[DB_serch["コード"]==code1]["銘柄名"].iloc[0]
     ShowedTime1 = datetime_obj
     Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_)
     try:
-        st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.write(DB_serch[DB_serch["コード"]==code1]["銘柄名"].iloc[0])
+        st.write("コード：",code1,name1)
+        st.write("時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
         st.table(Ita1[1].style.set_table_styles(styles2).format(custom_format1_2))
     except:
