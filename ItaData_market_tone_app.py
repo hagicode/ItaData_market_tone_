@@ -80,30 +80,30 @@ date = datetime.strptime(date_str, '%y%m%d').date()
 
 
 #ファイル検索
+def seachfile(symbol,list_,date_str_):
+    code = symbol
+    l2 = list_
+    date_str = date_str_
+    if str(code).startswith('1'):
+        filename = [f for f in l2 if "1000s" in f and date_str in f][0]
+    elif str(code).startswith('2'):
+        filename = [f for f in l2 if "2000s" in f and date_str in f][0]
+    elif str(code).startswith('3'):
+        filename = [f for f in l2 if "3000s" in f and date_str in f][0]
+    elif str(code).startswith('4'):
+        filename = [f for f in l2 if "4000s" in f and date_str in f][0]
+    elif str(code).startswith('5'):
+        filename = [f for f in l2 if "5000s" in f and date_str in f][0]
+    elif str(code).startswith('6'):
+        filename = [f for f in l2 if "6000s" in f and date_str in f][0]
+    elif str(code).startswith('7'):
+        filename = [f for f in l2 if "7000s" in f and date_str in f][0]
+    elif str(code).startswith('8'):
+        filename = [f for f in l2 if "8000s" in f and date_str in f][0]
+    elif str(code).startswith('9'):
+        filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
+    return filename
 
-if str(code).startswith('1'):
-    filename = [f for f in l2 if "1000s" in f and date_str in f][0]
-elif str(code).startswith('2'):
-    filename = [f for f in l2 if "2000s" in f and date_str in f][0]
-elif str(code).startswith('3'):
-    filename = [f for f in l2 if "3000s" in f and date_str in f][0]
-elif str(code).startswith('4'):
-    filename = [f for f in l2 if "4000s" in f and date_str in f][0]
-elif str(code).startswith('5'):
-    filename = [f for f in l2 if "5000s" in f and date_str in f][0]
-elif str(code).startswith('6'):
-    filename = [f for f in l2 if "6000s" in f and date_str in f][0]
-elif str(code).startswith('7'):
-    filename = [f for f in l2 if "7000s" in f and date_str in f][0]
-elif str(code).startswith('8'):
-    filename = [f for f in l2 if "8000s" in f and date_str in f][0]
-elif str(code).startswith('9'):
-    filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
-
-
-#Ita
-p2 = pathlib.Path(filename)
-df_all = pd.read_parquet(p2)
 
 
 #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
@@ -267,32 +267,40 @@ table.dataframe td {text-align: right}
 # st.header("海運業")
 # st.write("ここに内容を記述します。")
 
+st.write("海運業")
+
 col1,col2,col3,col4,col5 = st.columns(5)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = "9101"
+    p1 = pathlib.Path(seachfile(code1,l2,date_str))
+    df1 = pd.read_parquet(p1)
     ShowedTime1 = datetime_obj
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
-        st.table(ItaResize(df_all.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df1.loc[code1].loc[ShowedTime1],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
         #st.table(ItaResize(df.loc[ShowedTime1]),hide_index=True, height=480)
     except:
         st.write("時刻データなし")
 
 with col2:
     code2 = "9104"
+    p2 = pathlib.Path(seachfile(code2,l2,date_str))
+    df2 = pd.read_parquet(p2)
     ShowedTime2 = datetime_obj
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
-        st.table(ItaResize(df_all.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+        st.table(ItaResize(df2.loc[code2].loc[ShowedTime2],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
     except:
         st.write("時刻データなし")
 
 with col3:
     code3 = "9107"
+    p3 = pathlib.Path(seachfile(code3,l2,date_str))
+    df3 = pd.read_parquet(p3)
     ShowedTime3 = datetime_obj
     st.write("銘柄コード：",code3,"時刻",ShowedTime3)
-    st.table(ItaResize(df_all.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+    st.table(ItaResize(df3.loc[code3].loc[ShowedTime3],ItaSize_str_).style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
     #st.table(ItaResize(df.loc[ShowedTime3]).style.set_table_styles(styles).format(custom_format))
 
 with col4:
