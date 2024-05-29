@@ -286,8 +286,8 @@ st.markdown("""
 # st.write("ここに内容を記述します。")
 #st.header('Section 1')
 #st.write("海運業")
-st.markdown("<h2 id='section-1'style='font-size: 12px;'>海運業</h2>", unsafe_allow_html=True)
-st.markdown("<h2 id='section-2'style='font-size: 12px;'>電力</h2>", unsafe_allow_html=True)
+st.markdown("<h2 id='#section-1'style='font-size: 12px;'>海運業</h2>", unsafe_allow_html=True)
+st.markdown("<h2 id='#section-2'style='font-size: 12px;'>電力</h2>", unsafe_allow_html=True)
 
 #dfは9000sのみ
 l_kaiun = ["9101","9104","9107"]
