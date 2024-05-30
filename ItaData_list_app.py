@@ -172,7 +172,7 @@ st.divider()
 col1_,col2_ = st.columns(2)
 with col1_:
 #アップロードリスト
-    st.write("じぶんの銘柄リストから絞込む"):
+    st.write("じぶんの銘柄リストから絞込む")
     st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
     st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">活用例：四季報・株探などファンダで絞込んだリスト／自分の取引銘柄など</p>', unsafe_allow_html=True)
     uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
