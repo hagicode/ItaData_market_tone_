@@ -279,10 +279,11 @@ table.dataframe td {text-align: right}
 """
 
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
-cols = st.columns(5)
-col_index = 0  # 列インデックスを初期化
+
 for i in range(2):
     st.divider()
+    cols = st.columns(5)
+    col_index = 0  # 列インデックスを初期化
     for code in mycode_lists[:8]:
         p = pathlib.Path(seachfile(code, l2, date_str))
         df_p = pd.read_parquet(p)
