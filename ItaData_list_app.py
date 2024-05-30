@@ -279,12 +279,15 @@ table.dataframe td {text-align: right}
 """
 
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
+num_for = int(mycode_lists/5)+1
 
-for i in range(2):
+for i in range(num_for):
     st.divider()
     cols = st.columns(5)
     col_index = 0  # 列インデックスを初期化
-    for code in mycode_lists[:8]:
+    start = i * 5
+    end = i*5+4
+    for code in mycode_lists[start:end]:
         p = pathlib.Path(seachfile(code, l2, date_str))
         df_p = pd.read_parquet(p)
         name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
