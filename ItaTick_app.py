@@ -137,6 +137,18 @@ def ItaResize(df,ita_num=5):
     
     return df_____ ,div_data
 
+# 小数点以下1桁まで表示
+def custom_format1(x):
+    return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
+# 小数点以下2桁まで表示
+def custom_format1_2(x):
+    return '{:.2f}'.format(x) if isinstance(x, float) else str(x)
+
+# 桁区切り表示
+def custom_format2(x):
+    return '{:,}'.format(x) if isinstance(x, int) else str(x)
+
+
 #OHLC
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
@@ -331,15 +343,6 @@ styles2 = [
 dict(selector="th", props=th_props2),
 dict(selector="td", props=td_props2)
 ]
-
-
-
-
-def custom_format1(x):
-    return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
-def custom_format2(x):
-    return '{:,}'.format(x) if isinstance(x, int) else str(x)
-
 
 hide_table_row_index = """
 <style>
