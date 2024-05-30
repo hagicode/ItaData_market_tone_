@@ -29,72 +29,6 @@ def is_int(s):
     else:
         return True
 
-
-
-st.divider()
-
-#Ita
-l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-#st.write(l2)
-
-# Github
-# https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
-url = 'https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls'
-df_jpx = pd.read_excel(url)
-df_jpx = df_jpx.iloc[:, [1, 2, 3, 9]]
-database = df_jpx[df_jpx["市場・商品区分"] != "ETF・ETN"]
-database_org = database.astype(str)
-
-DB_serch = database_org.copy()
-#DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
-
-
-col1_,col2_ = st.columns(2)
-with col1_:
-#アップロードリスト
-    with st.expander("じぶんの銘柄リストから絞込む"):
-        st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
-        st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">活用例：四季報・株探などファンダで絞込んだリスト／自分の取引銘柄など</p>', unsafe_allow_html=True)
-        uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
-        if uploaded_file is not None:
-            upload_df = pd.read_csv(uploaded_file,index_col=None,header=None)
-            mycode_lists_org = upload_df.iloc[:,0].astype(str)
-            mycode_lists = mycode_lists_org.tolist()
-            #mycode_lists = [int(s) for s in mycode_lists_org if is_int(s)]
-            #mylist_button = st.radio("マイリストでの絞込み",    ('無', '有'), horizontal=True)
-
-
-# 日付と時間を結合してdatetimeオブジェクトを作成
-with col2_:
-    # 文字列を日付と時間に分割
-    date_str = st.text_input("日付(yymmdd)","240522")
-    date = datetime.strptime(date_str, '%y%m%d').date()
-
-    time_str = st.select_slider(
-    "板データ時刻",
-    options=["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"])
-    time = datetime.strptime(time_str, '%H:%M').time()
-    
-    # 日付と時間を適切な形式に変換
-    datetime_obj = datetime.combine(date, time)
-    
-    # その他の設定
-    st.write("その他設定")
-    ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
-    ItaSize_str_ = round(int(ItaSize_str)/2)
-    FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
-    if FontSize_str == "小":
-        thFont = '11px'
-        tdFont = '9px'
-    elif FontSize_str == "中":
-        thFont = '13px'
-        tdFont = '11px'
-    elif FontSize_str == "大":
-        thFont = '15px'
-        tdFont = '13px'            
-
-
-
 #ファイル検索
 def seachfile(symbol,list_,date_str_):
     code = symbol
@@ -120,16 +54,6 @@ def seachfile(symbol,list_,date_str_):
         filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
     return filename
 
-
-
-#update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
-#st.write("データ更新日：" + update_date)
-#st.write(p)
-#df = pd.read_parquet("files/" + "240522_df_day.parquet")
-# df = pd.read_parquet(p)
-# #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
-
-#関数化
 def ItaResize(df,ita_num=5):
     import numpy as np
     import pandas as pd
@@ -217,8 +141,93 @@ def ItaResize(df,ita_num=5):
     return df_____ ,div_data
 
 
+# 小数点以下1桁まで表示
+def custom_format1(x):
+    return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
+# 小数点以下2桁まで表示
+def custom_format1_2(x):
+    return '{:.2f}'.format(x) if isinstance(x, float) else str(x)
 
-# style
+# 桁区切り表示
+def custom_format2(x):
+    return '{:,}'.format(x) if isinstance(x, int) else str(x)
+
+
+#Ita
+l2 = sorted(glob.glob('files/*.parquet', recursive=True))
+#st.write(l2)
+
+# Github
+# https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
+url = 'https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls'
+df_jpx = pd.read_excel(url)
+df_jpx = df_jpx.iloc[:, [1, 2, 3, 9]]
+database = df_jpx[df_jpx["市場・商品区分"] != "ETF・ETN"]
+database_org = database.astype(str)
+
+DB_serch = database_org.copy()
+#DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
+
+st.divider()
+col1_,col2_ = st.columns(2)
+with col1_:
+#アップロードリスト
+    st.write("じぶんの銘柄リストから絞込む"):
+    st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">活用例：四季報・株探などファンダで絞込んだリスト／自分の取引銘柄など</p>', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
+    if uploaded_file is not None:
+        upload_df = pd.read_csv(uploaded_file,index_col=None,header=None)
+        mycode_lists_org = upload_df.iloc[:,0].astype(str)
+        mycode_lists = mycode_lists_org.tolist()
+        #mycode_lists = [int(s) for s in mycode_lists_org if is_int(s)]
+        #mylist_button = st.radio("マイリストでの絞込み",    ('無', '有'), horizontal=True)
+
+
+# 日付と時間を結合してdatetimeオブジェクトを作成
+with col2_:
+    # 文字列を日付と時間に分割
+    date_str = st.text_input("日付(yymmdd)","240522")
+    date = datetime.strptime(date_str, '%y%m%d').date()
+
+    time_str = st.select_slider(
+    "板データ時刻",
+    options=["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"])
+    time = datetime.strptime(time_str, '%H:%M').time()
+    
+    # 日付と時間を適切な形式に変換
+    datetime_obj = datetime.combine(date, time)
+    
+    # その他の設定
+    st.write("その他設定")
+    ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
+    ItaSize_str_ = round(int(ItaSize_str)/2)
+    FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
+    if FontSize_str == "小":
+        thFont = '11px'
+        tdFont = '9px'
+    elif FontSize_str == "中":
+        thFont = '13px'
+        tdFont = '11px'
+    elif FontSize_str == "大":
+        thFont = '15px'
+        tdFont = '13px'            
+
+st.divider()
+
+
+
+
+
+#update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
+#st.write("データ更新日：" + update_date)
+#st.write(p)
+#df = pd.read_parquet("files/" + "240522_df_day.parquet")
+# df = pd.read_parquet(p)
+# #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
+
+
+# style1
 th_props1 = [
 ('font-size', thFont),
 ('text-align', 'center'),
@@ -237,7 +246,7 @@ dict(selector="th", props=th_props1),
 dict(selector="td", props=td_props1)
 ]
 
-# style
+# style2
 th_props2 = [
 ('font-size', thFont),
 ('text-align', 'center'),
@@ -255,20 +264,6 @@ styles2 = [
 dict(selector="th", props=th_props2),
 dict(selector="td", props=td_props2)
 ]
-
-
-
-# 小数点以下1桁まで表示
-def custom_format1(x):
-    return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
-# 小数点以下2桁まで表示
-def custom_format1_2(x):
-    return '{:.2f}'.format(x) if isinstance(x, float) else str(x)
-
-# 桁区切り表示
-def custom_format2(x):
-    return '{:,}'.format(x) if isinstance(x, int) else str(x)
-
 
 hide_table_row_index = """
 <style>
