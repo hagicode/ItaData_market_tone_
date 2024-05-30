@@ -358,6 +358,7 @@ name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホ
 st.write(f"{code}: {name} ")
 ShowedTime = datetime_obj
 for t in range(len(timelist)):
+    st.write(t+1)
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
@@ -380,8 +381,8 @@ for t in range(len(timelist)):
         if ShowedTime == datetime_obj_max:
             break
         else:
-            ShowedTime = ShowedTime + timedelta(minutes=5*t)
-
+            ShowedTime = ShowedTime + timedelta(minutes=5*(t+1))
+            st.write(ShowedTime)
     except:
         with current_col:
             st.write("データなし")
