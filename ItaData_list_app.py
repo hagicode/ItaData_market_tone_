@@ -218,12 +218,6 @@ with col2_:
         thFont = '15px'
         tdFont = '13px'            
 
-st.divider()
-
-
-
-
-
 #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
 #st.write("データ更新日：" + update_date)
 #st.write(p)
