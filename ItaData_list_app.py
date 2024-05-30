@@ -34,6 +34,7 @@ with st.expander("じぶんの銘柄リストから絞込む"):
         
         if mylist_button =='有':
             #df = df[df['ticker'].isin(mycode_lists)]
+            pass
 
 st.divider()
 
