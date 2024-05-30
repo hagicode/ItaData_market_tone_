@@ -306,7 +306,7 @@ col_index = 0  # 列インデックスを初期化
 for code in mycode_lists:
     p = pathlib.Path(seachfile(code, l2, date_str))
     df_p = pd.read_parquet(p)
-    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","ＨＤ")
+    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
     ShowedTime = datetime_obj
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
 
