@@ -356,8 +356,8 @@ col_index = 0  # 列インデックスを初期化
 p = pathlib.Path(seachfile(code, l2, date_str))
 df_p = pd.read_parquet(p)
 st.write(f"{code}")
-#name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
-#st.write(f"{code}: {name} ")
+name = DB_serch[DB_serch["コード"] == code.casefold()]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
+st.write(f"{code}: {name} ")
 ShowedTime = datetime_obj
 for t in range(len(timelist)):
     ShowedTime = ShowedTime + timedelta(minutes=5*(t))
