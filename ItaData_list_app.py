@@ -45,7 +45,7 @@ with st.expander("じぶんの銘柄リストから絞込む"):
         if mylist_button =='有':
             st.write(mycode_lists)
             #df = df[df['ticker'].isin(mycode_lists)]
-            pass
+            #pass
 
 st.divider()
 
@@ -61,9 +61,8 @@ df_jpx = df_jpx.iloc[:, [1, 2, 3, 9]]
 database = df_jpx[df_jpx["市場・商品区分"] != "ETF・ETN"]
 database_org = database.astype(str)
 
-
 DB_serch = database_org.copy()
-DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
+#DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
 
 
 col1_,col2_ = st.columns(2)
@@ -314,7 +313,8 @@ col_index = 0  # 列インデックスを初期化
 for code in mycode_lists:
     p = pathlib.Path(seachfile(code, l2, date_str))
     df_p = pd.read_parquet(p)
-    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0]
+    st.write(code,p)
+    name = DB_serch[DB_serch["コード"] == str(code)]["銘柄名"].iloc[0]
     ShowedTime = datetime_obj
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
 
