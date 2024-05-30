@@ -205,10 +205,6 @@ l1_in = [s for s in l1 if date_str in s][0]
 p1 = pathlib.Path(l1_in)
 df_ohlc = pd.read_parquet(p1).loc[code]
 
-#Ita
-p2 = pathlib.Path(filename)
-df = pd.read_parquet(p2).loc[code]
-
 
 #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
 #st.write("データ更新日：" + update_date)
