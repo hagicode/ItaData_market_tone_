@@ -285,13 +285,9 @@ for i in range(num_for):
     st.divider()
     cols = st.columns(5)
     col_index = 0  # 列インデックスを初期化
-    if i == 0:
-        start = 0
-        end = 5
-    else:
-        start = i * 5
-        end = i*5+4
-                
+
+    start = i * 5
+    end = (i+1)*5               
     for code in mycode_lists[start:end]:
         p = pathlib.Path(seachfile(code, l2, date_str))
         df_p = pd.read_parquet(p)
