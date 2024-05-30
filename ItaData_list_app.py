@@ -279,7 +279,7 @@ table.dataframe td {text-align: right}
 """
 
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
-num_for = int(mycode_lists/5)+1
+num_for = len(mycode_lists)//5+1
 
 for i in range(num_for):
     st.divider()
