@@ -380,7 +380,7 @@ for t in range(len(timelist)):
         if ShowedTime == datetime_obj_max:
             break
         else:
-            ShowedTime = ShowedTime + timedelta(minutes=5)
+            ShowedTime = ShowedTime + timedelta(minutes=5*t)
 
     except:
         with current_col:
