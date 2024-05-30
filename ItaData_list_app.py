@@ -30,22 +30,6 @@ def is_int(s):
         return True
 
 
-#アップロードリスト
-with st.expander("じぶんの銘柄リストから絞込む"):
-    st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
-    st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">活用例：四季報・株探などファンダで絞込んだリスト／自分の取引銘柄など</p>', unsafe_allow_html=True)
-    uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
-    if uploaded_file is not None:
-        upload_df = pd.read_csv(uploaded_file,index_col=None,header=None)
-        mycode_lists_org = upload_df.iloc[:,0].astype(str)
-        mycode_lists = mycode_lists_org.tolist()
-        #mycode_lists = [int(s) for s in mycode_lists_org if is_int(s)]
-        mylist_button = st.radio("マイリストでの絞込み",    ('無', '有'), horizontal=True)
-        
-        if mylist_button =='有':
-            st.write(mycode_lists)
-            #df = df[df['ticker'].isin(mycode_lists)]
-            #pass
 
 st.divider()
 
@@ -67,28 +51,34 @@ DB_serch = database_org.copy()
 
 col1_,col2_ = st.columns(2)
 with col1_:
-    st.cache_data.clear()
+#アップロードリスト
+    with st.expander("じぶんの銘柄リストから絞込む"):
+        st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">活用例：四季報・株探などファンダで絞込んだリスト／自分の取引銘柄など</p>', unsafe_allow_html=True)
+        uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
+        if uploaded_file is not None:
+            upload_df = pd.read_csv(uploaded_file,index_col=None,header=None)
+            mycode_lists_org = upload_df.iloc[:,0].astype(str)
+            mycode_lists = mycode_lists_org.tolist()
+            #mycode_lists = [int(s) for s in mycode_lists_org if is_int(s)]
+            #mylist_button = st.radio("マイリストでの絞込み",    ('無', '有'), horizontal=True)
 
-    input_txt = st.text_input('銘柄コードを入力 or 部分一致の検索', '8058')
-    format_input = format_text(input_txt).casefold()
-    
-    DB_result = database[(DB_serch['コード'].str.contains(str(format_input)))|(DB_serch['銘柄名'].str.contains(str(format_input)))]
-    db_result_org = database_org.loc[DB_result.index]
-    st.table(db_result_org)
-    if len(db_result_org) == 0:
-        st.write("一致する銘柄はありません")
-    if len(db_result_org) > 1:
-        st.write("1銘柄になるように入力してください")
-    if len(db_result_org) == 1:
-        symbols = db_result_org.iloc[0,0]
-        name = db_result_org.iloc[0,1]
-        st.write(f"[・TradingViewで開く](https://jp.tradingview.com/chart/?symbol=TSE%3A{symbols})")
-        st.write(f"[・株探で確認する](https://kabutan.jp/stock/chart?code={symbols})")
-    code = symbols
 
+# 日付と時間を結合してdatetimeオブジェクトを作成
 with col2_:
     # 文字列を日付と時間に分割
     date_str = st.text_input("日付(yymmdd)","240522")
+    date = datetime.strptime(date_str, '%y%m%d').date()
+
+    time_str = st.select_slider(
+    "板データ時刻",
+    options=["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"])
+    time = datetime.strptime(time_str, '%H:%M').time()
+    
+    # 日付と時間を適切な形式に変換
+    datetime_obj = datetime.combine(date, time)
+    
+    # その他の設定
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
@@ -102,8 +92,7 @@ with col2_:
     elif FontSize_str == "大":
         thFont = '15px'
         tdFont = '13px'            
-# 日付と時間を適切な形式に変換
-date = datetime.strptime(date_str, '%y%m%d').date()
+
 
 
 #ファイル検索
@@ -226,16 +215,6 @@ def ItaResize(df,ita_num=5):
     },index=["値"]).T.reset_index()
     
     return df_____ ,div_data
-
-
-time_str = st.select_slider(
-    "板データ時刻",
-    options=["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"])
-
-time = datetime.strptime(time_str, '%H:%M').time()
-# 日付と時間を結合してdatetimeオブジェクトを作成
-datetime_obj = datetime.combine(date, time)
-#datetime_obj_ = datetime_obj.strftime('%Y/%m/%d %H:%M')
 
 
 
