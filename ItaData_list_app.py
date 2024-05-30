@@ -21,6 +21,15 @@ def format_text(text):
   text = neologdn.normalize(text)
   return text
 
+def is_int(s):
+    try:
+        int(s)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
 #アップロードリスト
 with st.expander("じぶんの銘柄リストから絞込む"):
     st.markdown('<p style="font-family:sans-serif; color:blue; font-size: 10px;">1列目に銘柄コードが来るように記載ください。文字列は無視されます。</p>', unsafe_allow_html=True)
