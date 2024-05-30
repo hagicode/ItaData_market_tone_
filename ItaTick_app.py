@@ -356,8 +356,8 @@ p = pathlib.Path(seachfile(code, l2, date_str))
 df_p = pd.read_parquet(p)
 name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
 st.write(f"{code}: {name} ")
-for t in timelist:
-    ShowedTime = datetime_obj
+ShowedTime = datetime_obj
+for t in range(len(timelist):
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
