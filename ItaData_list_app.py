@@ -299,13 +299,6 @@ table.dataframe td {text-align: right}
 </style>
 """
 
-#dfは9000sのみ
-#mycode_lists
-# mycode_list_files = [seachfile(code,l2,date_str) for code in mycode_lists]
-# p_9000 = pathlib.Path(seachfile("9101",l2,date_str))
-# df_9000 = pd.read_parquet(p_9000)
-
-# st.columnsを用いて5つの列を作成
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 cols = st.columns(5)
 col_index = 0  # 列インデックスを初期化
@@ -313,8 +306,7 @@ col_index = 0  # 列インデックスを初期化
 for code in mycode_lists:
     p = pathlib.Path(seachfile(code, l2, date_str))
     df_p = pd.read_parquet(p)
-    st.write(code,p)
-    name = DB_serch[DB_serch["コード"] == str(code)]["銘柄名"].iloc[0]
+    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0]
     ShowedTime = datetime_obj
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
 
@@ -324,7 +316,8 @@ for code in mycode_lists:
     try:
         # 現在の列にコンテンツを表示
         with current_col:
-            st.write(f"{code}: {name} [{datetime_obj}]")
+            st.write(f"{code}: {name} ")
+            st.write(f"[{datetime_obj}]")
             st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
             st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
 
