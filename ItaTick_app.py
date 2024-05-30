@@ -378,11 +378,11 @@ for t in range(len(timelist)):
             col_index = 0
 
         # 列インデックスが5に達したらリセット
-        if ShowedTime == datetime_obj_max:
-            break
-        else:
-            ShowedTime = ShowedTime + timedelta(minutes=5*(t+1))
-            st.write(ShowedTime)
+        # if ShowedTime == datetime_obj_max:
+        #     break
+        # else:
+        ShowedTime = ShowedTime + timedelta(minutes=5*(t+1))
+        st.write(ShowedTime)
     except:
         with current_col:
             st.write("データなし")
