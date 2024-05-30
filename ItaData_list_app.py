@@ -133,9 +133,14 @@ def ItaResize(df,ita_num=5):
     bid_total = df_Ita_.iloc[ask_max:bid_max]["買数量"].sum()+bid_under
     bid_over_ask = bid_total / ask_total
 
+    bid_market_over_total= df_market["買数量"].iloc[0]/bid_total
+    ask_market_over_total= df_market["売数量"].iloc[0]/ask_total
+
     div_data = pd.DataFrame({
     '成行比率(買/売)': market_div,
     '累計比率(買/売)': bid_over_ask,
+    '成行/累計の比率(買)': bid_market_over_total,
+    '成行/累計の比率(売)': ask_market_over_total,
     },index=["値"]).T.reset_index()
     
     return df_____ ,div_data
