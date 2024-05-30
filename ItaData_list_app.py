@@ -279,42 +279,73 @@ table.dataframe td {text-align: right}
 """
 
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
-cols = st.columns(5)
+# cols = st.columns(5)
+# col_index = 0  # 列インデックスを初期化
+
+# for code in mycode_lists:
+#     p = pathlib.Path(seachfile(code, l2, date_str))
+#     df_p = pd.read_parquet(p)
+#     name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
+#     ShowedTime = datetime_obj
+#     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
+
+#     # 現在の列オブジェクトを取得
+#     current_col = cols[col_index]
+
+#     try:
+#         # 現在の列にコンテンツを表示
+#         with current_col:
+#             st.write(f"{code}: {name} ")
+#             st.write(f"[{datetime_obj}]")
+#             st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+#             st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
+
+#         # 次の列に移動
+#         col_index += 1
+
+#         # 列インデックスが5に達したらリセット
+#         if col_index == 5:
+#             col_index = 0
+
+#     except:
+#         with current_col:
+#             st.write("データなし")
+
+#         # 次の列に移動
+#         col_index += 1
+
+#         # 列インデックスが5に達したらリセット
+#         if col_index == 5:
+#             col_index = 0
+
+# st.containerを用いて各列の開始位置を揃える
+cols = [st.container() for _ in range(5)]
 col_index = 0  # 列インデックスを初期化
 
 for code in mycode_lists:
     p = pathlib.Path(seachfile(code, l2, date_str))
     df_p = pd.read_parquet(p)
-    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
+    name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス", "　ＨＤ")
     ShowedTime = datetime_obj
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
 
-    # 現在の列オブジェクトを取得
-    current_col = cols[col_index]
+    # 現在のcontainerオブジェクトを取得
+    current_container = cols[col_index]
 
     try:
-        # 現在の列にコンテンツを表示
-        with current_col:
+        # 現在のcontainerにコンテンツを表示
+        with current_container:
             st.write(f"{code}: {name} ")
             st.write(f"[{datetime_obj}]")
             st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
             st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
 
-        # 次の列に移動
-        col_index += 1
-
-        # 列インデックスが5に達したらリセット
-        if col_index == 5:
-            col_index = 0
+        # 次のcontainerに移動
+        col_index = (col_index + 1) % 5  # 5に達したら0にリセット
 
     except:
-        with current_col:
+        with current_container:
             st.write("データなし")
 
-        # 次の列に移動
-        col_index += 1
-
-        # 列インデックスが5に達したらリセット
-        if col_index == 5:
-            col_index = 0
-
+        # 次のcontainerに移動
+        col_index = (col_index + 1) % 5  # 5に達したら0にリセット
