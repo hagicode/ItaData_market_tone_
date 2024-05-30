@@ -289,7 +289,7 @@ for i in range(num_for):
         start = 0
         end = 5
     else:
-        start = i * 5 -1
+        start = i * 5
         end = i*5+4
                 
     for code in mycode_lists[start:end]:
