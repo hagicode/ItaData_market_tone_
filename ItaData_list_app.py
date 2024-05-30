@@ -37,7 +37,7 @@ with st.expander("じぶんの銘柄リストから絞込む"):
     uploaded_file = st.file_uploader("マイリストアップロード", type='csv') 
     if uploaded_file is not None:
         upload_df = pd.read_csv(uploaded_file,index_col=None,header=None)
-        mycode_lists_org = upload_df.iloc[:,0]
+        mycode_lists_org = upload_df.iloc[:,0].astype(str)
         mycode_lists = mycode_lists_org.tolist()
         #mycode_lists = [int(s) for s in mycode_lists_org if is_int(s)]
         mylist_button = st.radio("マイリストでの絞込み",    ('無', '有'), horizontal=True)
