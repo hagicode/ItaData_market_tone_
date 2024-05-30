@@ -153,6 +153,7 @@ database_org = database.astype(str)
 
 DB_serch = database_org.copy()
 DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
+DB_serch["コード"] = [format_text(txt).casefold() for txt in DB_serch["コード"]]
 
 
 col1_,col2_ = st.columns(2)
