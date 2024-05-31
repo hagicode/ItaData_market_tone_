@@ -207,90 +207,96 @@ with col2_:
         tdFont = '13px'            
 # 日付と時間を適切な形式に変換
 date = datetime.strptime(date_str, '%y%m%d').date()
-
-
-#ファイル検索
-l1_in = [s for s in l1 if date_str in s][0]
-#l2_in = [s for s in l2 if code in s][0]
-   
-
-#OHLC
-p1 = pathlib.Path(l1_in)
-df_ohlc = pd.read_parquet(p1).loc[code]
-
-
-#update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
-#st.write("データ更新日：" + update_date)
-#st.write(p)
-#df = pd.read_parquet("files/" + "240522_df_day.parquet")
-# df = pd.read_parquet(p)
-# #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
-
-
-
-
 ###チャート##
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-#日付一覧を取得
-d_all = pd.date_range(start=df_ohlc.index[0],end=df_ohlc.index[-1])
+graph_disp = st.radio('グラフ表示',['有', '無'],horizontal=True,index=0)
+if graph_disp == "有"
 
-#株価データの日付リストを取得
-d_obs = [d.strftime("%Y-%m-%d") for d in df_ohlc.index]
+    #ファイル検索
+    l1_in = [s for s in l1 if date_str in s][0]
+    #l2_in = [s for s in l2 if code in s][0]
+    
 
-# 株価データの日付データに含まれていない日付を抽出
-d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
+    #OHLC
+    p1 = pathlib.Path(l1_in)
+    df_ohlc = pd.read_parquet(p1).loc[code]
 
-# figを定義（第二軸を追加）
-fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_width=[0.7, 0.7], x_title="Date",
-                    specs=[[{}], [{"secondary_y": True}]])
 
-# Candlestick
-fig.add_trace(
-    go.Candlestick(x=df_ohlc.index, open=df_ohlc["open"], high=df_ohlc["high"], low=df_ohlc["low"], close=df_ohlc["close"], showlegend=False),
-    row=1, col=1
-)
+    #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
+    #st.write("データ更新日：" + update_date)
+    #st.write(p)
+    #df = pd.read_parquet("files/" + "240522_df_day.parquet")
+    # df = pd.read_parquet(p)
+    # #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
 
-# Volume
-fig.add_trace(
-    go.Bar(x=df_ohlc.index, y=df_ohlc["volume"], showlegend=False),
-    row=2, col=1
-)
 
-# Buy and Sell on secondary axis
-fig.add_trace(go.Scatter(x=df_ohlc.index, y=df_ohlc["buy"], name="buy", mode="lines"), secondary_y=True, row=2, col=1)
-fig.add_trace(go.Scatter(x=df_ohlc.index, y=df_ohlc["sell"], name="sell", mode="lines"), secondary_y=True, row=2, col=1)
 
-#Layout
-fig.update_layout(
-    title={
-        "text": "5分足チャート",
-        "y":0.9,
-        "x":0.5,
-    }
-)
 
-fig.update_xaxes(
-    rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定
-    tickformat='%Y/%m/%d' # 日付のフォーマット変更
-)
 
-# ラベル名の設定とフォーマット変更（カンマ区切り）
-fig.update_yaxes(separatethousands=True, title_text="株価", row=1, col=1)
-fig.update_yaxes(title_text="出来高", secondary_y=False, row=2, col=1)
-fig.update_yaxes(title_text="Buy/Sell", secondary_y=True, row=2, col=1)
 
-fig.update(layout_xaxis_rangeslider_visible=False) #追加
+    #日付一覧を取得
+    d_all = pd.date_range(start=df_ohlc.index[0],end=df_ohlc.index[-1])
 
-# グラフのサイズを設定
-fig.update_layout(autosize=False, width=1500, height=500)
+    #株価データの日付リストを取得
+    d_obs = [d.strftime("%Y-%m-%d") for d in df_ohlc.index]
+
+    # 株価データの日付データに含まれていない日付を抽出
+    d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
+
+    # figを定義（第二軸を追加）
+    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_width=[0.7, 0.7], x_title="Date",
+                        specs=[[{}], [{"secondary_y": True}]])
+
+    # Candlestick
+    fig.add_trace(
+        go.Candlestick(x=df_ohlc.index, open=df_ohlc["open"], high=df_ohlc["high"], low=df_ohlc["low"], close=df_ohlc["close"], showlegend=False),
+        row=1, col=1
+    )
+
+    # Volume
+    fig.add_trace(
+        go.Bar(x=df_ohlc.index, y=df_ohlc["volume"], showlegend=False),
+        row=2, col=1
+    )
+
+    # Buy and Sell on secondary axis
+    fig.add_trace(go.Scatter(x=df_ohlc.index, y=df_ohlc["buy"], name="buy", mode="lines"), secondary_y=True, row=2, col=1)
+    fig.add_trace(go.Scatter(x=df_ohlc.index, y=df_ohlc["sell"], name="sell", mode="lines"), secondary_y=True, row=2, col=1)
+
+    #Layout
+    fig.update_layout(
+        title={
+            "text": "5分足チャート",
+            "y":0.9,
+            "x":0.5,
+        }
+    )
+
+    fig.update_xaxes(
+        rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定
+        tickformat='%Y/%m/%d' # 日付のフォーマット変更
+    )
+
+    # ラベル名の設定とフォーマット変更（カンマ区切り）
+    fig.update_yaxes(separatethousands=True, title_text="株価", row=1, col=1)
+    fig.update_yaxes(title_text="出来高", secondary_y=False, row=2, col=1)
+    fig.update_yaxes(title_text="Buy/Sell", secondary_y=True, row=2, col=1)
+
+    fig.update(layout_xaxis_rangeslider_visible=False) #追加
+
+    # グラフのサイズを設定
+    fig.update_layout(autosize=False, width=1500, height=500)
 
 
 col1__, col2__ = st.columns([3, 1])
 with col1__:
 # Streamlitでグラフを表示
-    st.plotly_chart(fig)
+    try:
+        st.plotly_chart(fig)
+    except:
+        pass
 
 with col2__:
     timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
@@ -360,6 +366,7 @@ p = pathlib.Path(seachfile(code, l2, date_str))
 df_p = pd.read_parquet(p)
 st.write(f"{code}: {name} ")
 ShowedTime = datetime_obj
+
 for t in range(len(timelist)):
     ShowedTime = ShowedTime + timedelta(minutes=5*(t))
     Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
