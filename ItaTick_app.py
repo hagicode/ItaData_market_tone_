@@ -212,7 +212,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 graph_disp = st.radio('グラフ表示',['有', '無'],horizontal=True,index=0)
-if graph_disp == "有"
+if graph_disp == "有":
 
     #ファイル検索
     l1_in = [s for s in l1 if date_str in s][0]
