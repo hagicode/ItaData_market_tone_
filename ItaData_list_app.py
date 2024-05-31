@@ -167,7 +167,7 @@ l2 = sorted(glob.glob('files/*.parquet', recursive=True))
 url = 'https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls'
 df_jpx = pd.read_excel(url)
 df_jpx = df_jpx.iloc[:, [1, 2, 3, 9]]
-database = df_jpx[df_jpx["市場・商品区分"] != "ETF・ETN"]
+database = df_jpx.copy()
 database_org = database.astype(str)
 
 DB_serch = database_org.copy()
