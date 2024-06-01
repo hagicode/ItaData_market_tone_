@@ -368,15 +368,15 @@ st.write(f"{code}: {name} ")
 ShowedTime = datetime_obj
 
 for t in range(len(timelist)):
-    ShowedTime = ShowedTime + timedelta(minutes=5*(t))
-    Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
+    CurrentTime = ShowedTime + timedelta(minutes=5*(t))
+    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
 
     try:
         # 現在の列にコンテンツを表示
         with current_col:
-            st.write(f"[{ShowedTime}]")
+            st.write(f"[{CurrentTime}]")
             st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
             st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
 
