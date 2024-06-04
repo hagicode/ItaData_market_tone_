@@ -159,7 +159,7 @@ def custom_format2(x):
 
 
 #Ita
-l2 = sorted(glob.glob('files/*.parquet', recursive=True))
+l2 = sorted(glob.glob('files/*s.parquet', recursive=True))
 #st.write(l2)
 
 # Github
@@ -191,8 +191,9 @@ with col1_:
 
 # 日付と時間を結合してdatetimeオブジェクトを作成
 with col2_:
+    newest_date = os.path.basename(l2[-1])[:6]
     # 文字列を日付と時間に分割
-    date_str = st.text_input("日付(yymmdd)","240522")
+    date_str = st.text_input("日付(yymmdd)",newest_date)
     date = datetime.strptime(date_str, '%y%m%d').date()
 
     time_str = st.select_slider(
