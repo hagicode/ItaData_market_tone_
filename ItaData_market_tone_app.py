@@ -79,42 +79,6 @@ with col2_:
 # 日付と時間を適切な形式に変換
 date = datetime.strptime(date_str, '%y%m%d').date()
 
-
-#ファイル検索
-def seachfile(symbol,list_,date_str_):
-    code = symbol
-    l2 = list_
-    date_str = date_str_
-    if str(code).startswith('1'):
-        filename = [f for f in l2 if "1000s" in f and date_str in f][0]
-    elif str(code).startswith('2'):
-        filename = [f for f in l2 if "2000s" in f and date_str in f][0]
-    elif str(code).startswith('3'):
-        filename = [f for f in l2 if "3000s" in f and date_str in f][0]
-    elif str(code).startswith('4'):
-        filename = [f for f in l2 if "4000s" in f and date_str in f][0]
-    elif str(code).startswith('5'):
-        filename = [f for f in l2 if "5000s" in f and date_str in f][0]
-    elif str(code).startswith('6'):
-        filename = [f for f in l2 if "6000s" in f and date_str in f][0]
-    elif str(code).startswith('7'):
-        filename = [f for f in l2 if "7000s" in f and date_str in f][0]
-    elif str(code).startswith('8'):
-        filename = [f for f in l2 if "8000s" in f and date_str in f][0]
-    elif str(code).startswith('9'):
-        filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
-    return filename
-
-
-
-#update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
-#st.write("データ更新日：" + update_date)
-#st.write(p)
-#df = pd.read_parquet("files/" + "240522_df_day.parquet")
-# df = pd.read_parquet(p)
-# #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
-
-#関数化
 def ItaResize(df,ita_num=5):
     import numpy as np
     import pandas as pd
@@ -194,12 +158,53 @@ def ItaResize(df,ita_num=5):
     bid_total = df_Ita_.iloc[ask_max:bid_max]["買数量"].sum()+bid_under
     bid_over_ask = bid_total / ask_total
 
+    bid_market_over_total= df_market["買数量"].iloc[0]/bid_total
+    ask_market_over_total= df_market["売数量"].iloc[0]/ask_total
+
     div_data = pd.DataFrame({
     '成行比率(買/売)': market_div,
     '累計比率(買/売)': bid_over_ask,
+    '成行/累計の比率(買)': bid_market_over_total,
+    '成行/累計の比率(売)': ask_market_over_total,
     },index=["値"]).T.reset_index()
     
     return df_____ ,div_data
+
+#ファイル検索
+def seachfile(symbol,list_,date_str_):
+    code = symbol
+    l2 = list_
+    date_str = date_str_
+    if str(code).startswith('1'):
+        filename = [f for f in l2 if "1000s" in f and date_str in f][0]
+    elif str(code).startswith('2'):
+        filename = [f for f in l2 if "2000s" in f and date_str in f][0]
+    elif str(code).startswith('3'):
+        filename = [f for f in l2 if "3000s" in f and date_str in f][0]
+    elif str(code).startswith('4'):
+        filename = [f for f in l2 if "4000s" in f and date_str in f][0]
+    elif str(code).startswith('5'):
+        filename = [f for f in l2 if "5000s" in f and date_str in f][0]
+    elif str(code).startswith('6'):
+        filename = [f for f in l2 if "6000s" in f and date_str in f][0]
+    elif str(code).startswith('7'):
+        filename = [f for f in l2 if "7000s" in f and date_str in f][0]
+    elif str(code).startswith('8'):
+        filename = [f for f in l2 if "8000s" in f and date_str in f][0]
+    elif str(code).startswith('9'):
+        filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
+    return filename
+
+
+
+#update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
+#st.write("データ更新日：" + update_date)
+#st.write(p)
+#df = pd.read_parquet("files/" + "240522_df_day.parquet")
+# df = pd.read_parquet(p)
+# #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
+
+
 
 #日付のデータに対して存在するtimelistを作成し表示
 p1000 = pathlib.Path(seachfile("1000", l2, date_str))
