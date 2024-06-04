@@ -197,6 +197,8 @@ with col2_:
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
+    ItaOrder_str = st.radio('売買件数表示',['有', '無'],horizontal=True,index=1)
+ 
     FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
     if FontSize_str == "小":
         thFont = '11px'
@@ -375,6 +377,8 @@ ShowedTime = datetime_obj
 for t in range(len(timelist)):
     CurrentTime = ShowedTime + timedelta(minutes=5*(t))
     Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+    if ItaOrder_str == "無":
+       Ita = Ita.drop(["売件数","買件数"],axis=1) 
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
 
