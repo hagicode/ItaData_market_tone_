@@ -213,6 +213,9 @@ with col2_:
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
+    
+    ItaOrder_str = st.radio('売買件数表示',['有', '無'],horizontal=True,index=1)
+
     FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
     if FontSize_str == "小":
         thFont = '11px'
@@ -294,7 +297,12 @@ for i in range(num_for):
         name = DB_serch[DB_serch["コード"] == code]["銘柄名"].iloc[0].replace("ホールディングス","　ＨＤ")
         ShowedTime = datetime_obj
         Ita = ItaResize(df_p.loc[code].loc[ShowedTime], ItaSize_str_)
-
+        if ItaOrder_str == "無":
+                table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
+        else:
+            table1 = Ita[0]
+        table2 = Ita[1]
+        
         # 現在の列オブジェクトを取得
         current_col = cols[col_index]
 
@@ -303,8 +311,8 @@ for i in range(num_for):
             with current_col:
                 st.write(f"{code}: {name} ")
                 st.write(f"[{datetime_obj}]")
-                st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-                st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
+                st.table(table1.style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+                st.table(table2.style.set_table_styles(styles2).format(custom_format1_2))
 
             # 次の列に移動
             col_index += 1
