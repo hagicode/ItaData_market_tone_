@@ -376,9 +376,12 @@ ShowedTime = datetime_obj
 
 for t in range(len(timelist)):
     CurrentTime = ShowedTime + timedelta(minutes=5*(t))
-    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+    
     if ItaOrder_str == "無":
-       Ita = Ita.drop(["売件数","買件数"],axis=1) 
+        Ita = ItaResize(df_p.loc[code].loc[CurrentTime].drop(["売件数","買件数"],axis=1) , ItaSize_str_)
+    else:
+        Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+         
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
 
