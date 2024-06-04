@@ -377,8 +377,9 @@ ShowedTime = datetime_obj
 for t in range(len(timelist)):
     CurrentTime = ShowedTime + timedelta(minutes=5*(t))
     Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
-    If ItaOrder_str == "無":
-        table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
+    
+    if ItaOrder_str == "無":
+            table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
     else:
         table1 = Ita[0]
     
