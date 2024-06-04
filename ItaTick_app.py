@@ -192,7 +192,7 @@ with col1_:
 
 with col2_:
     # 文字列を日付と時間に分割
-    newest_date = os.path.basename(l2[0])[:6]
+    newest_date = os.path.basename(l2[-1])[:6]
     date_str = st.text_input("日付(yymmdd)",newest_date)
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
