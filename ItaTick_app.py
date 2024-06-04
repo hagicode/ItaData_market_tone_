@@ -376,12 +376,13 @@ ShowedTime = datetime_obj
 
 for t in range(len(timelist)):
     CurrentTime = ShowedTime + timedelta(minutes=5*(t))
-    
-    if ItaOrder_str == "無":
-        Ita = ItaResize(df_p.loc[code].loc[CurrentTime].drop(["売件数","買件数"],axis=1) , ItaSize_str_)
+    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+    If ItaOrder_str == "無":
+        table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
     else:
-        Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
-         
+        table1 = Ita[0]
+    
+    table2 = Ita[1]
     # 現在の列オブジェクトを取得
     current_col = cols[col_index]
 
@@ -389,8 +390,8 @@ for t in range(len(timelist)):
         # 現在の列にコンテンツを表示
         with current_col:
             st.write(f"[{CurrentTime}]")
-            st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-            st.table(Ita[1].style.set_table_styles(styles2).format(custom_format1_2))
+            st.table(table1.style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+            st.table(table2.style.set_table_styles(styles2).format(custom_format1_2))
 
         # 次の列に移動
         col_index += 1
