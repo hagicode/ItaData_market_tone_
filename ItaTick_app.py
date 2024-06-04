@@ -301,9 +301,9 @@ with col1__:
         pass
 
 with col2__:
-    p1301 = pathlib.Path(seachfile("1301", l2, date_str))
-    df_p1301 = pd.read_parquet(p1301)
-    timelist = df_p1301.loc["1301"].index.tolist()
+    p1000 = pathlib.Path(seachfile("1000", l2, date_str))
+    df_p1000 = pd.read_parquet(p1000)
+    timelist = [i.strftime('%H:%M') for i in df_p1000.index.get_level_values(1).unique()]
     #timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
     time_str = st.select_slider(
         "板データ時刻",
