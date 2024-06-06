@@ -167,9 +167,9 @@ database_org = database.astype(str)
 url2 = "https://ca.image.jp/matsui/?type=6&word2=&word1=&sort=1&seldate=0&serviceDatefrom=&serviceDateto="
 IPO_df = pd.read_html(url2,flavor='html5lib')[2]
 
-from datetime import datetime
+from datetime import datetime, date
 # 今日の日付を取得
-today = datetime.date.today()
+today = date.today()
 
 # 今月の月初めの日付を取得
 first_day_of_month = datetime(today.year, today.month, 1)
