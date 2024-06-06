@@ -166,7 +166,7 @@ database_org = database.astype(str)
 
 url2 = "https://ca.image.jp/matsui/?type=6&word2=&word1=&sort=1&seldate=0&serviceDatefrom=&serviceDateto="
 IPO_df = pd.read_html(url2,flavor='html5lib')[2]
-
+st.table(IPO_df)
 from datetime import datetime, date
 # 今日の日付を取得
 today = date.today()
