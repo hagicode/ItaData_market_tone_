@@ -169,7 +169,7 @@ IPO_df = pd.read_html(url2,flavor='html5lib')[2]
 
 from datetime import datetime
 # 今日の日付を取得
-today = date.today()
+today = datetime.date.today()
 
 # 今月の月初めの日付を取得
 first_day_of_month = datetime(today.year, today.month, 1)
