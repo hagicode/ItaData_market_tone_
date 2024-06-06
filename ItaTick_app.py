@@ -165,8 +165,8 @@ database_org = database.astype(str)
 
 
 url2 = "https://ca.image.jp/matsui/?type=6&word2=&word1=&sort=1&seldate=0&serviceDatefrom=&serviceDateto="
-IPO_df = pd.read_html(url2,flavor='html5lib')[3] #html5libを用いるとテーブル番号が変わった。
-#st.table(IPO_df)
+IPO_df = pd.read_html(url2,flavor='html5lib')[2]
+
 from datetime import datetime, date
 # 今日の日付を取得
 today = date.today()
@@ -177,7 +177,7 @@ IPO_df['上場日  ▼'] = pd.to_datetime(IPO_df['上場日  ▼'], format='%Y-%
 IPO_df_ = IPO_df[IPO_df['上場日  ▼' ] >= first_day_of_month]
 IPO_df__ =IPO_df_[['銘柄コード  ■', '銘柄名  ■', '市場  ■']].replace("東証グロース","グロース（内国株式）").replace("東証プライム","プライム（内国株式）").replace("東証スタンダード","スタンダード（内国株式）").replace("東証",'ETF・ETN').rename(columns={'銘柄コード  ■': 'コード','銘柄名  ■': '銘柄名', '市場  ■': '市場・商品区分'})
 
-database_org_ = pd.concat([IPO_df__,database_org],axis=0)
+database_org_ = pd.concat([IPO_df__,database_org],axis=0).reset_index(drop=True)
 
 DB_serch = database_org_.copy()
 DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
