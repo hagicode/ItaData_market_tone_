@@ -191,7 +191,7 @@ with col1_:
     input_txt = st.text_input('銘柄コードを入力 or 部分一致の検索', '8058')
     format_input = format_text(input_txt).casefold()
     
-    DB_result = database[(DB_serch['コード'].str.contains(str(format_input)))|(DB_serch['銘柄名'].str.contains(str(format_input)))]
+    DB_result = database_org_[(DB_serch['コード'].str.contains(str(format_input)))|(DB_serch['銘柄名'].str.contains(str(format_input)))]
     db_result_org = database_org_.loc[DB_result.index]
     st.table(db_result_org)
     if len(db_result_org) == 0:
