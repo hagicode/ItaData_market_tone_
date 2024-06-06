@@ -3,3 +3,4 @@ plotly==5.00.0
 neologdn==0.5.2
 xlrd==2.0.1
 html5lib==1.1
+bs4==0.0.1
