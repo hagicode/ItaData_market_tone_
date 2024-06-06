@@ -1,5 +1,5 @@
 streamlit==1.29.0
-plotly ==5.00.0
+plotly==5.00.0
 neologdn==0.5.2
 xlrd==2.0.1
-lxml==4.6.3
+html5lib==1.1
