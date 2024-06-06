@@ -164,7 +164,22 @@ database = df_jpx.copy()
 database_org = database.astype(str)
 
 
-DB_serch = database_org.copy()
+url2 = "https://ca.image.jp/matsui/?type=6&word2=&word1=&sort=1&seldate=0&serviceDatefrom=&serviceDateto="
+IPO_df = pd.read_html(url2)[2]
+
+from datetime import datetime
+# 今日の日付を取得
+today = date.today()
+
+# 今月の月初めの日付を取得
+first_day_of_month = datetime(today.year, today.month, 1)
+IPO_df['上場日  ▼'] = pd.to_datetime(IPO_df['上場日  ▼'], format='%Y-%m-%d')
+IPO_df_ = IPO_df[IPO_df['上場日  ▼' ] >= first_day_of_month]
+IPO_df__ =IPO_df_[['銘柄コード  ■', '銘柄名  ■', '市場  ■']].replace("東証グロース","グロース（内国株式）").replace("東証プライム","プライム（内国株式）").replace("東証スタンダード","スタンダード（内国株式）").replace("東証",'ETF・ETN').rename(columns={'銘柄コード  ■': 'コード','銘柄名  ■': '銘柄名', '市場  ■': '市場・商品区分'})
+
+database_org_ = pd.concat([IPO_df__,database_org],axis=0)
+
+DB_serch = database_org_.copy()
 DB_serch["銘柄名"] = [format_text(txt).casefold() for txt in DB_serch["銘柄名"]]
 DB_serch["コード"] = [format_text(txt).casefold() for txt in DB_serch["コード"]]
 
@@ -177,7 +192,7 @@ with col1_:
     format_input = format_text(input_txt).casefold()
     
     DB_result = database[(DB_serch['コード'].str.contains(str(format_input)))|(DB_serch['銘柄名'].str.contains(str(format_input)))]
-    db_result_org = database_org.loc[DB_result.index]
+    db_result_org = database_org_.loc[DB_result.index]
     st.table(db_result_org)
     if len(db_result_org) == 0:
         st.write("一致する銘柄はありません")
