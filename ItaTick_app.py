@@ -264,9 +264,9 @@ if graph_disp == "有":
 
 
     # 株価データの日付データに含まれていない日付を抽出
-    d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
-    d_breaks = [d for d in d_all.strftime("%H:%M").tolist() if not d in d_obs]
-    #d_breaks = df_ohlc[df_ohlc["open"].isna()].index.tolist()
+    #d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
+    #d_breaks = [d for d in d_all.strftime("%H:%M").tolist() if not d in d_obs]
+    d_breaks = df_ohlc[df_ohlc["open"].isna()].index.tolist()
     
     
     # figを定義（第二軸を追加）
@@ -298,14 +298,14 @@ if graph_disp == "有":
         }
     )
 
-    fig.update_xaxes(
-        rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定,分足のためdvalueセット
-        tickformat='%H:%M' # 日付のフォーマット変更
-    )
     # fig.update_xaxes(
-    #     rangebreaks=[dict(values=d_breaks,dvalue = 600000 )], # 非営業日を非表示設定,分足のためdvalueセット
+    #     rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定,分足のためdvalueセット
     #     tickformat='%H:%M' # 日付のフォーマット変更
     # )
+    fig.update_xaxes(
+        rangebreaks=[dict(values=d_breaks,dvalue = 60000 )], # 非営業日を非表示設定,分足のためdvalueセット
+        tickformat='%H:%M' # 日付のフォーマット変更
+    )
 
     # ラベル名の設定とフォーマット変更（カンマ区切り）
     fig.update_yaxes(separatethousands=True, title_text="株価", row=1, col=1)
