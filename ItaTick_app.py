@@ -241,7 +241,7 @@ if graph_disp == "有":
     #OHLC
     p1 = pathlib.Path(l1_in)
     df_ohlc = pd.read_parquet(p1).loc[code]
-
+    df_ohlc = df_ohlc.dropna(axis=0)
 
     #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
     #st.write("データ更新日：" + update_date)
