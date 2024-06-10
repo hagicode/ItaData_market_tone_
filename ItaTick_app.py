@@ -241,7 +241,7 @@ if graph_disp == "有":
     #OHLC
     p1 = pathlib.Path(l1_in)
     df_ohlc = pd.read_parquet(p1).loc[code]
-    df_ohlc = df_ohlc.dropna(axis=0)
+    #df_ohlc = df_ohlc.dropna(axis=0)
 
     #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
     #st.write("データ更新日：" + update_date)
@@ -265,8 +265,9 @@ if graph_disp == "有":
 
     # 株価データの日付データに含まれていない日付を抽出
     #d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
-    d_breaks = [d for d in d_all.strftime("%H:%M").tolist() if not d in d_obs]
-
+    d_breaks = df_ohlc[df_ohlc["open"]==np.nan].index.tolist()
+    
+    
     # figを定義（第二軸を追加）
     fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_width=[0.7, 0.7], x_title="Date",
                         specs=[[{}], [{"secondary_y": True}]])
