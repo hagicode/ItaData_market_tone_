@@ -140,9 +140,9 @@ def ItaResize(df,ita_num=5):
 # 小数点以下1桁まで表示
 def custom_format1(x):
     return '{:.1f}'.format(x) if isinstance(x, float) else str(x)
-# 小数点以下2桁まで表示
+# 小数点以下3桁まで表示
 def custom_format1_2(x):
-    return '{:.2f}'.format(x) if isinstance(x, float) else str(x)
+    return '{:.3f}'.format(x) if isinstance(x, float) else str(x)
 
 # 桁区切り表示
 def custom_format2(x):
