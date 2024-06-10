@@ -259,10 +259,13 @@ if graph_disp == "有":
     d_all = pd.date_range(start=df_ohlc.index[0],end=df_ohlc.index[-1])
 
     #株価データの日付リストを取得
-    d_obs = [d.strftime("%Y-%m-%d") for d in df_ohlc.index]
+    #d_obs = [d.strftime("%Y-%m-%d") for d in df_ohlc.index]
+    d_obs = [d.strftime("%H:%M") for d in df_ohlc.index]
+
 
     # 株価データの日付データに含まれていない日付を抽出
-    d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
+    #d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
+    d_breaks = [d for d in d_all.strftime("%H:%M").tolist() if not d in d_obs]
 
     # figを定義（第二軸を追加）
     fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_width=[0.7, 0.7], x_title="Date",
