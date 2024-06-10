@@ -317,6 +317,7 @@ with col1__:
 # Streamlitでグラフを表示
     try:
         st.plotly_chart(fig)
+        st.write(d_breaks)
     except:
         pass
 
