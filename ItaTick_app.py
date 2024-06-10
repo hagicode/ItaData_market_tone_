@@ -265,7 +265,7 @@ if graph_disp == "有":
 
     # 株価データの日付データに含まれていない日付を抽出
     #d_breaks = [d for d in d_all.strftime("%Y-%m-%d").tolist() if not d in d_obs]
-    d_breaks = df_ohlc[df_ohlc["open"]==np.nan].index.tolist()
+    d_breaks = df_ohlc[df_ohlc["open"].isna()].index.tolist()
     
     
     # figを定義（第二軸を追加）
