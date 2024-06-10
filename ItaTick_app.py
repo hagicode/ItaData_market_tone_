@@ -295,7 +295,7 @@ if graph_disp == "有":
 
     fig.update_xaxes(
         rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定
-        tickformat='%Y/%m/%d' # 日付のフォーマット変更
+        tickformat='%H:%M' # 日付のフォーマット変更
     )
 
     # ラベル名の設定とフォーマット変更（カンマ区切り）
