@@ -295,8 +295,8 @@ if graph_disp == "有":
 
     fig.update_xaxes(
         rangebreaks=[dict(values=d_breaks)], # 非営業日を非表示設定
-        tickformat='%H:%M', # 日付のフォーマット変更
-        title_text="時刻")
+        tickformat='%H:%M' # 日付のフォーマット変更
+    )
 
     # ラベル名の設定とフォーマット変更（カンマ区切り）
     fig.update_yaxes(separatethousands=True, title_text="株価", row=1, col=1)
