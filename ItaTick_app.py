@@ -303,7 +303,7 @@ if graph_disp == "有":
     #     tickformat='%H:%M' # 日付のフォーマット変更
     # )
     fig.update_xaxes(
-        rangebreaks=[dict(values=d_breaks,dvalue = 60000 )], # 非営業日を非表示設定,分足のためdvalueセット
+        rangebreaks=[dict(values=d_breaks,dvalue = 300000 )], # 非営業日を非表示設定,分足のためdvalueセット
         tickformat='%H:%M' # 日付のフォーマット変更
     )
 
