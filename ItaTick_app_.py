@@ -231,30 +231,38 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 import streamlit as st
-from datetime import datetime, timedelta
+from datetime import date, timedelta
+import os  # osモジュールをインポート
 
-date_mode = st.radio('複数日指定',['無', '過去5日','任意5日'],horizontal=True,index=1)
-if date_mode  == "無":
+# ここでl2の定義が必要です。例えば：
+# l2 = ['ファイル名1', 'ファイル名2', ...]
+
+date_mode = st.radio('複数日指定', ['無', '過去5日', '任意5日'], horizontal=True, index=1)
+if date_mode == "無":
+    # l2の最新の日付を取得
     newest_date = os.path.basename(l2[-1])[:6]
-    date_str_ = st.text_input("日付(yymmdd)",newest_date)
+    date_str_ = st.text_input("日付(yymmdd)", newest_date)
 
-elif date_mode  == "過去5日":
+elif date_mode == "過去5日":
+    # l2の最新の日付を取得
     newest_date = os.path.basename(l2[-1])[:6]
-    date_str_ = st.text_input("日付(yymmdd)",newest_date)
+    date_str_ = st.text_input("日付(yymmdd)", newest_date)
 
-elif date_mode  == "任意5日":
-    select_dates = st.selectbox("選択日数", (2,3,4,5),  index=None)
+elif date_mode == "任意5日":
+    select_dates = st.selectbox("選択日数", (2, 3, 4, 5), index=None)
 
-    # 任意の5日間を選択するためのリストを初期化
+    # 任意の日数を選択するためのリストを初期化
     selected_dates = []
 
     # カレンダーから日付を選択
     for i in range(int(select_dates)):
-        date = st.date_input(f'日付{i+1}を選択してください', min_value=datetime.date.today())
-        selected_dates.append(date)
+        # date.today()を使用して現在の日付を取得
+        date_ = st.date_input(f'日付{i+1}を選択してください', min_value=date.today())
+        selected_dates.append(date_)
 
     # 選択した日付を表示
     st.write('選択した日付:', selected_dates)
+
 
 graph_disp = st.radio('グラフ表示',['有', '無'],horizontal=True,index=0)
 if graph_disp == "有":
