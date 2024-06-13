@@ -251,13 +251,13 @@ elif date_mode == "過去5日":
 elif date_mode == "任意5日":
     select_dates = st.selectbox("選択日数", (2, 3, 4, 5), index=None)
     cols = st.columns(int(select_dates))
-    col_index = 0
+    
     # 任意の日数を選択するためのリストを初期化
     selected_dates = []
 
     # カレンダーから日付を選択
     for i in range(int(select_dates)):
-        current_col = cols[col_index]
+        current_col = cols[i]
         # date.today()を使用して現在の日付を取得
         with current_col:
             date_ = st.date_input(f'日付{i+1}を選択してください', min_value=date.today())
