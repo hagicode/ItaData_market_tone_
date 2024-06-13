@@ -260,7 +260,7 @@ elif date_mode == "複数日指定":
         current_col = cols[i]
         # date.today()を使用して現在の日付を取得
         with current_col:
-            date_ = st.date_input(f'日付{i+1}を選択してください', min_value=date.today()- timedelta(days=1*i))
+            date_ = st.date_input(f'日付{i+1}を選択してください',date.today()- timedelta(days=1*i))
             selected_dates.append(date_)
 
     # 選択した日付を表示
