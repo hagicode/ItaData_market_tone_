@@ -237,18 +237,18 @@ import os  # osモジュールをインポート
 # ここでl2の定義が必要です。例えば：
 # l2 = ['ファイル名1', 'ファイル名2', ...]
 
-date_mode = st.radio('複数日指定', ['無', '過去5日', '任意5日'], horizontal=True, index=1)
+date_mode = st.radio('板比較', ['無', '複数日指定'], horizontal=True, index=1)
 if date_mode == "無":
     # l2の最新の日付を取得
     newest_date = os.path.basename(l2[-1])[:6]
     date_str_1 = st.text_input("日付(yymmdd)", newest_date)
 
-elif date_mode == "過去5日":
-    # l2の最新の日付を取得
-    newest_date = os.path.basename(l2[-1])[:6]
-    date_str_2 = st.text_input("日付(yymmdd)", newest_date)
+# elif date_mode == "過去5日":
+#     # l2の最新の日付を取得
+#     newest_date = os.path.basename(l2[-1])[:6]
+#     date_str_2 = st.text_input("日付(yymmdd)", newest_date)
 
-elif date_mode == "任意5日":
+elif date_mode == "複数日指定":
     select_dates = st.selectbox("選択日数", (2, 3, 4, 5), index=None)
     cols = st.columns(5)
     
@@ -260,7 +260,7 @@ elif date_mode == "任意5日":
         current_col = cols[i]
         # date.today()を使用して現在の日付を取得
         with current_col:
-            date_ = st.date_input(f'日付{i+1}を選択してください', min_value=date.today())
+            date_ = st.date_input(f'日付{i+1}を選択してください', min_value=date.today()- timedelta(days=1*i))
             selected_dates.append(date_)
 
     # 選択した日付を表示
