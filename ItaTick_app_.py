@@ -153,7 +153,7 @@ def custom_format2(x):
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-st.write(l1)
+#st.write(l1)
 
 # Github
 # https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
@@ -260,7 +260,8 @@ elif date_mode == "複数日指定":
         current_col = cols[i]
         # date.today()を使用して現在の日付を取得
         with current_col:
-            date_ = st.date_input(f'日付{i+1}を選択してください',date.today()- timedelta(days=1*i))
+            date_str_ = os.path.basename(l2[-1*(i+1)])[:6]
+            date_ = st.date_input(f'日付{i+1}を選択してください',datetime.strptime(date_str_, '%y%m%d').date())
             selected_dates.append(date_)
 
     # 選択した日付を表示
