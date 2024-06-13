@@ -466,10 +466,10 @@ if date_mode == "当日":
     
 elif date_mode == "複数日指定":
     col1,col2 = st.columns(2)
-    with col1
+    with col1:
         timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
         time_str = st.select_slider("板データ時刻",options=timelist)
-    with col2
+    with col2:
         list_disp = st.radio('板表示順',['選択順', '逆順'],horizontal=True,index=1)
         disp_list = selected_dates
         if list_disp == "逆順":
