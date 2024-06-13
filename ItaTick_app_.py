@@ -306,10 +306,10 @@ elif date_mode == "複数日指定":
         with current_col:
             date_str_ = os.path.basename(l1[-1*(i+1)])[:6]
             date_ = st.date_input(f'日付{i+1}を選択してください',datetime.strptime(date_str_, '%y%m%d').date())
-            selected_dates.append(date_)
+            date_str2 = date_.strftime('%y%m%d')#後で取り出しやすい形式
+            selected_dates.append(date_str2)
 
-    timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
-    time_str = st.select_slider("板データ時刻",options=timelist)
+
 
 ##グラフ表示
 graph_disp = st.radio('グラフ表示',['有', '無'],horizontal=True,index=0)
@@ -464,11 +464,59 @@ if date_mode == "当日":
             if col_index == 5:
                 col_index = 0
     
+elif date_mode == "複数日指定":
+    timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
+    time_str = st.select_slider("板データ時刻",options=timelist)
+    
+    
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+    cols = st.columns(5)
+    col_index = 0  # 列インデックスを初期化
 
+    for date_str in range(selected_dates):
+        date = datetime.strptime(date_str, '%y%m%d').date()
+        time = datetime.strptime(time_str, '%H:%M').time()
+        
+        p = pathlib.Path(seachfile(code, l2, date_))
+        df_p = pd.read_parquet(p)
+        
+        # 日付と時間を結合してdatetimeオブジェクトを作成
+        datetime_obj = datetime.combine(date, time)
+        CurrentTime = datetime_obj
+        Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+        
+        if ItaOrder_str == "無":
+                table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
+        else:
+            table1 = Ita[0]
+        
+        table2 = Ita[1]
+        # 現在の列オブジェクトを取得
+        current_col = cols[col_index]
+        
+        try:
+            # 現在の列にコンテンツを表示
+            with current_col:
+                st.write(f"[{CurrentTime}]")
+                st.table(table1.style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+                st.table(table2.style.set_table_styles(styles2).format(custom_format1_2))
 
+            # 次の列に移動
+            col_index += 1
 
+            # 列インデックスが5に達したらリセット
+            if col_index == 5:
+                col_index = 0
+        except:
+            with current_col:
+                st.write("データなし")
 
+            # 次の列に移動
+            col_index += 1
 
+            # 列インデックスが5に達したらリセット
+            if col_index == 5:
+                col_index = 0
 
 
 
