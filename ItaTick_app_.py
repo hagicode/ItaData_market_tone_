@@ -153,7 +153,7 @@ def custom_format2(x):
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-#st.write(l1)
+st.write(l1)
 
 # Github
 # https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
