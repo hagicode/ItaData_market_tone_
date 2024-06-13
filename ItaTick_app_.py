@@ -236,11 +236,11 @@ from datetime import datetime, timedelta
 date_mode = st.radio('複数日指定',['無', '過去5日','任意5日'],horizontal=True,index=1)
 if date_mode  == "無":
     newest_date = os.path.basename(l2[-1])[:6]
-    date_str = st.text_input("日付(yymmdd)",newest_date)
+    date_str_ = st.text_input("日付(yymmdd)",newest_date)
 
 elif date_mode  == "過去5日":
     newest_date = os.path.basename(l2[-1])[:6]
-    date_str = st.text_input("日付(yymmdd)",newest_date)
+    date_str_ = st.text_input("日付(yymmdd)",newest_date)
 
 elif date_mode  == "任意5日":
     select_dates = st.selectbox("選択日数", (2,3,4,5),  index=None)
@@ -249,7 +249,7 @@ elif date_mode  == "任意5日":
     selected_dates = []
 
     # カレンダーから日付を選択
-    for i in range(select_dates):
+    for i in range(int(select_dates)):
         date = st.date_input(f'日付{i+1}を選択してください', min_value=datetime.date.today())
         selected_dates.append(date)
 
