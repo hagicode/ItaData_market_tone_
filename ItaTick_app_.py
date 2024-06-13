@@ -148,51 +148,6 @@ def custom_format1_2(x):
 def custom_format2(x):
     return '{:,}'.format(x) if isinstance(x, int) else str(x)
 
-# style
-th_props1 = [
-('font-size', thFont),
-('text-align', 'center'),
-('font-weight', 'bold'),
-('color', '#6d6d6d'),
-('background-color', '#e6e6e6')
-]
-                            
-td_props1 = [
-('font-size', tdFont),
-('text-align', 'left')
-]
-                                
-styles1 = [
-dict(selector="th", props=th_props1),
-dict(selector="td", props=td_props1)
-]
-
-# style
-th_props2 = [
-('font-size', thFont),
-('text-align', 'center'),
-('font-weight', 'bold'),
-('color', '#6d6d6d'),
-('background-color', '#f7ffff')
-]
-                            
-td_props2 = [
-('font-size', tdFont),
-('text-align', 'left')
-]
-                                
-styles2 = [
-dict(selector="th", props=th_props2),
-dict(selector="td", props=td_props2)
-]
-
-hide_table_row_index = """
-<style>
-thead tr th:first-child {display:none}
-tbody th {display:none}
-table.dataframe td {text-align: right}
-</style>
-"""
 
 #OHLC
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
@@ -269,6 +224,53 @@ with col2_:
     elif FontSize_str == "大":
         thFont = '15px'
         tdFont = '13px'            
+
+
+# style
+th_props1 = [
+('font-size', thFont),
+('text-align', 'center'),
+('font-weight', 'bold'),
+('color', '#6d6d6d'),
+('background-color', '#e6e6e6')
+]
+                            
+td_props1 = [
+('font-size', tdFont),
+('text-align', 'left')
+]
+                                
+styles1 = [
+dict(selector="th", props=th_props1),
+dict(selector="td", props=td_props1)
+]
+
+# style
+th_props2 = [
+('font-size', thFont),
+('text-align', 'center'),
+('font-weight', 'bold'),
+('color', '#6d6d6d'),
+('background-color', '#f7ffff')
+]
+                            
+td_props2 = [
+('font-size', tdFont),
+('text-align', 'left')
+]
+                                
+styles2 = [
+dict(selector="th", props=th_props2),
+dict(selector="td", props=td_props2)
+]
+
+hide_table_row_index = """
+<style>
+thead tr th:first-child {display:none}
+tbody th {display:none}
+table.dataframe td {text-align: right}
+</style>
+"""
 
 ###チャート##
 import plotly.graph_objects as go
