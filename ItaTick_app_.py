@@ -153,7 +153,7 @@ def custom_format2(x):
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-#st.write(l1)
+st.write(l1)
 
 # Github
 # https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
@@ -240,7 +240,7 @@ import os  # osモジュールをインポート
 date_mode = st.radio('板比較', ['無', '複数日指定'], horizontal=True, index=1)
 if date_mode == "無":
     # l2の最新の日付を取得
-    newest_date = os.path.basename(l2[-1])[:6]
+    newest_date = os.path.basename(l2[-2])[:6]
     date_str_1 = st.text_input("日付(yymmdd)", newest_date)
 
 # elif date_mode == "過去5日":
