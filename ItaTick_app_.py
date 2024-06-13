@@ -240,7 +240,7 @@ import os  # osモジュールをインポート
 date_mode = st.radio('板比較', ['無', '複数日指定'], horizontal=True, index=1)
 if date_mode == "無":
     # l2の最新の日付を取得
-    newest_date = os.path.basename(l2[-2])[:6]
+    newest_date = os.path.basename(l1[-1])[:6]
     date_str_1 = st.text_input("日付(yymmdd)", newest_date)
 
 # elif date_mode == "過去5日":
@@ -260,7 +260,7 @@ elif date_mode == "複数日指定":
         current_col = cols[i]
         # date.today()を使用して現在の日付を取得
         with current_col:
-            date_str_ = os.path.basename(l2[-1*(i+1)])[:6]
+            date_str_ = os.path.basename(l1[-1*(i+1)])[:6]
             date_ = st.date_input(f'日付{i+1}を選択してください',datetime.strptime(date_str_, '%y%m%d').date())
             selected_dates.append(date_)
 
