@@ -148,12 +148,57 @@ def custom_format1_2(x):
 def custom_format2(x):
     return '{:,}'.format(x) if isinstance(x, int) else str(x)
 
+# style
+th_props1 = [
+('font-size', thFont),
+('text-align', 'center'),
+('font-weight', 'bold'),
+('color', '#6d6d6d'),
+('background-color', '#e6e6e6')
+]
+                            
+td_props1 = [
+('font-size', tdFont),
+('text-align', 'left')
+]
+                                
+styles1 = [
+dict(selector="th", props=th_props1),
+dict(selector="td", props=td_props1)
+]
+
+# style
+th_props2 = [
+('font-size', thFont),
+('text-align', 'center'),
+('font-weight', 'bold'),
+('color', '#6d6d6d'),
+('background-color', '#f7ffff')
+]
+                            
+td_props2 = [
+('font-size', tdFont),
+('text-align', 'left')
+]
+                                
+styles2 = [
+dict(selector="th", props=th_props2),
+dict(selector="td", props=td_props2)
+]
+
+hide_table_row_index = """
+<style>
+thead tr th:first-child {display:none}
+tbody th {display:none}
+table.dataframe td {text-align: right}
+</style>
+"""
 
 #OHLC
 l1 = sorted(glob.glob('files/*OHLC_all.parquet', recursive=True))
 #Ita
 l2 = sorted(glob.glob('files/*.parquet', recursive=True))
-st.write(l1)
+#st.write(l1)
 
 # Github
 # https://www.jpx.co.jp/markets/statistics-equities/misc/01.html
@@ -206,9 +251,9 @@ with col1_:
     code = symbols
 
 with col2_:
-    # 文字列を日付と時間に分割
-    newest_date = os.path.basename(l2[-1])[:6]
-    date_str = st.text_input("日付(yymmdd)",newest_date)
+    # # 文字列を日付と時間に分割
+    # newest_date = os.path.basename(l2[-1])[:6]
+    # date_str = st.text_input("日付(yymmdd)",newest_date)
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
@@ -224,8 +269,7 @@ with col2_:
     elif FontSize_str == "大":
         thFont = '15px'
         tdFont = '13px'            
-# 日付と時間を適切な形式に変換
-date = datetime.strptime(date_str, '%y%m%d').date()
+
 ###チャート##
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -237,19 +281,17 @@ import os  # osモジュールをインポート
 # ここでl2の定義が必要です。例えば：
 # l2 = ['ファイル名1', 'ファイル名2', ...]
 
-date_mode = st.radio('板比較', ['無', '複数日指定'], horizontal=True, index=1)
-if date_mode == "無":
+date_mode = st.radio('板比較', ['当日', '複数日指定'], horizontal=True, index=1)
+if date_mode == "当日":
     # l2の最新の日付を取得
     newest_date = os.path.basename(l1[-1])[:6]
-    date_str_1 = st.text_input("日付(yymmdd)", newest_date)
-
-# elif date_mode == "過去5日":
-#     # l2の最新の日付を取得
-#     newest_date = os.path.basename(l2[-1])[:6]
-#     date_str_2 = st.text_input("日付(yymmdd)", newest_date)
+    date_str = st.text_input("日付(yymmdd)", newest_date)
+    # 日付と時間を適切な形式に変換
+    date = datetime.strptime(date_str, '%y%m%d').date()
 
 elif date_mode == "複数日指定":
-    select_dates = st.selectbox("選択日数", (2, 3, 4, 5), index=None)
+    select_dates = st.selectbox("選択日数", (2, 3, 4, 5), index=3)
+    
     cols = st.columns(5)
     
     # 任意の日数を選択するためのリストを初期化
@@ -264,13 +306,12 @@ elif date_mode == "複数日指定":
             date_ = st.date_input(f'日付{i+1}を選択してください',datetime.strptime(date_str_, '%y%m%d').date())
             selected_dates.append(date_)
 
-            # 選択した日付を表示
-            st.write('選択した日付:', date_str_)
-    st.write('選択した日付:', selected_dates)
+    timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
+    time_str = st.select_slider("板データ時刻",options=timelist)
 
-
+##グラフ表示
 graph_disp = st.radio('グラフ表示',['有', '無'],horizontal=True,index=0)
-if graph_disp == "有":
+if graph_disp == "有" and date_mode == "当日":
 
     #ファイル検索
     l1_in = [s for s in l1 if date_str in s][0]
@@ -281,18 +322,6 @@ if graph_disp == "有":
     p1 = pathlib.Path(l1_in)
     df_ohlc = pd.read_parquet(p1).loc[code]
     #df_ohlc = df_ohlc.dropna(axis=0)
-
-    #update_date = os.path.split(p)[1].replace("_df_dayIta_all.parquet","")
-    #st.write("データ更新日：" + update_date)
-    #st.write(p)
-    #df = pd.read_parquet("files/" + "240522_df_day.parquet")
-    # df = pd.read_parquet(p)
-    # #df_Ita = df.loc["1301"].loc["2024-05-22 09:50:00"]
-
-
-
-
-
 
     #日付一覧を取得
     d_all = pd.date_range(start=df_ohlc.index[0],end=df_ohlc.index[-1])
@@ -355,124 +384,83 @@ if graph_disp == "有":
 
     # グラフのサイズを設定
     fig.update_layout(autosize=False, width=1500, height=500)
-
-
-col1__, col2__ = st.columns([3, 1])
-with col1__:
-# Streamlitでグラフを表示
-    try:
-        st.plotly_chart(fig)
-    except:
-        pass
-
-with col2__:
-    p1000 = pathlib.Path(seachfile("1000", l2, date_str))
-    df_p1000 = pd.read_parquet(p1000)
-    timelist = [i.strftime('%H:%M') for i in df_p1000.index.get_level_values(1).unique()]
-    #timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
-    time_str = st.select_slider(
-        "板データ時刻",
-        options=timelist)
     
-time = datetime.strptime(time_str, '%H:%M').time()
-# 日付と時間を結合してdatetimeオブジェクトを作成
-datetime_obj = datetime.combine(date, time)
-time_max = datetime.strptime(timelist[-1], '%H:%M').time()
-datetime_obj_max = datetime.combine(date, time_max)
+    col1__, col2__ = st.columns([3, 1])
+    with col1__:
+    # Streamlitでグラフを表示
+        try:
+            st.plotly_chart(fig)
+        except:
+            pass
 
-
-
-# style
-th_props1 = [
-('font-size', thFont),
-('text-align', 'center'),
-('font-weight', 'bold'),
-('color', '#6d6d6d'),
-('background-color', '#e6e6e6')
-]
-                            
-td_props1 = [
-('font-size', tdFont),
-('text-align', 'left')
-]
-                                
-styles1 = [
-dict(selector="th", props=th_props1),
-dict(selector="td", props=td_props1)
-]
-
-# style
-th_props2 = [
-('font-size', thFont),
-('text-align', 'center'),
-('font-weight', 'bold'),
-('color', '#6d6d6d'),
-('background-color', '#f7ffff')
-]
-                            
-td_props2 = [
-('font-size', tdFont),
-('text-align', 'left')
-]
-                                
-styles2 = [
-dict(selector="th", props=th_props2),
-dict(selector="td", props=td_props2)
-]
-
-hide_table_row_index = """
-<style>
-thead tr th:first-child {display:none}
-tbody th {display:none}
-table.dataframe td {text-align: right}
-</style>
-"""
-
-st.markdown(hide_table_row_index, unsafe_allow_html=True)
-cols = st.columns(5)
-col_index = 0  # 列インデックスを初期化
-
-p = pathlib.Path(seachfile(code, l2, date_str))
-df_p = pd.read_parquet(p)
-st.write(f"{code}: {name} ")
-ShowedTime = datetime_obj
-
-for t in range(len(timelist)):
-    CurrentTime = ShowedTime + timedelta(minutes=5*(t))
-    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+    with col2__:
+        p1000 = pathlib.Path(seachfile("1000", l2, date_str))
+        df_p1000 = pd.read_parquet(p1000)
+        timelist = [i.strftime('%H:%M') for i in df_p1000.index.get_level_values(1).unique()]
+        #timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
+        time_str = st.select_slider(
+            "板データ時刻",
+            options=timelist)
     
-    if ItaOrder_str == "無":
-            table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
-    else:
-        table1 = Ita[0]
+    time = datetime.strptime(time_str, '%H:%M').time()
+    # 日付と時間を結合してdatetimeオブジェクトを作成
+    datetime_obj = datetime.combine(date, time)
+    time_max = datetime.strptime(timelist[-1], '%H:%M').time()
+    datetime_obj_max = datetime.combine(date, time_max)
     
-    table2 = Ita[1]
-    # 現在の列オブジェクトを取得
-    current_col = cols[col_index]
+    
+elif graph_disp == "有" and date_mode == "複数日指定":
+    st.write("準備中")
 
-    try:
-        # 現在の列にコンテンツを表示
-        with current_col:
-            st.write(f"[{CurrentTime}]")
-            st.table(table1.style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
-            st.table(table2.style.set_table_styles(styles2).format(custom_format1_2))
 
-        # 次の列に移動
-        col_index += 1
 
-        # 列インデックスが5に達したらリセット
-        if col_index == 5:
-            col_index = 0
-    except:
-        with current_col:
-            st.write("データなし")
+##板表示
+if date_mode == "当日":
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+    cols = st.columns(5)
+    col_index = 0  # 列インデックスを初期化
 
-        # 次の列に移動
-        col_index += 1
+    p = pathlib.Path(seachfile(code, l2, date_str))
+    df_p = pd.read_parquet(p)
+    st.write(f"{code}: {name} ")
+    ShowedTime = datetime_obj
 
-        # 列インデックスが5に達したらリセット
-        if col_index == 5:
-            col_index = 0
+    for t in range(len(timelist)):
+        CurrentTime = ShowedTime + timedelta(minutes=5*(t))
+        Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+        
+        if ItaOrder_str == "無":
+                table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
+        else:
+            table1 = Ita[0]
+        
+        table2 = Ita[1]
+        # 現在の列オブジェクトを取得
+        current_col = cols[col_index]
+
+        try:
+            # 現在の列にコンテンツを表示
+            with current_col:
+                st.write(f"[{CurrentTime}]")
+                st.table(table1.style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
+                st.table(table2.style.set_table_styles(styles2).format(custom_format1_2))
+
+            # 次の列に移動
+            col_index += 1
+
+            # 列インデックスが5に達したらリセット
+            if col_index == 5:
+                col_index = 0
+        except:
+            with current_col:
+                st.write("データなし")
+
+            # 次の列に移動
+            col_index += 1
+
+            # 列インデックスが5に達したらリセット
+            if col_index == 5:
+                col_index = 0
     
 
 
