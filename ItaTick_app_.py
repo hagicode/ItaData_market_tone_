@@ -480,7 +480,7 @@ elif date_mode == "複数日指定":
     cols = st.columns(5)
     col_index = 0  # 列インデックスを初期化
 
-    for date_str in selected_dates:
+    for date_str in disp_list:
         p = pathlib.Path(seachfile(code, l2, date_str))
         df_p = pd.read_parquet(p)
 
