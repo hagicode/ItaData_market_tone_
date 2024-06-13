@@ -474,11 +474,11 @@ elif date_mode == "複数日指定":
     col_index = 0  # 列インデックスを初期化
 
     for date_str in selected_dates:
+        p = pathlib.Path(seachfile(code, l2, date_str))
+        df_p = pd.read_parquet(p)
+
         date = datetime.strptime(date_str, '%y%m%d').date()
         time = datetime.strptime(time_str, '%H:%M').time()
-        
-        p = pathlib.Path(seachfile(code, l2, date_))
-        df_p = pd.read_parquet(p)
         
         # 日付と時間を結合してdatetimeオブジェクトを作成
         datetime_obj = datetime.combine(date, time)
