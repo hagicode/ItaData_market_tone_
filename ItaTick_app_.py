@@ -264,7 +264,8 @@ elif date_mode == "複数日指定":
             date_ = st.date_input(f'日付{i+1}を選択してください',datetime.strptime(date_str_, '%y%m%d').date())
             selected_dates.append(date_)
 
-    # 選択した日付を表示
+            # 選択した日付を表示
+            st.write('選択した日付:', date_str_)
     st.write('選択した日付:', selected_dates)
 
 
