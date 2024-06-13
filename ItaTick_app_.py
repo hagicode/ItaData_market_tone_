@@ -473,7 +473,7 @@ elif date_mode == "複数日指定":
     cols = st.columns(5)
     col_index = 0  # 列インデックスを初期化
 
-    for date_str in range(selected_dates):
+    for date_str in selected_dates:
         date = datetime.strptime(date_str, '%y%m%d').date()
         time = datetime.strptime(time_str, '%H:%M').time()
         
