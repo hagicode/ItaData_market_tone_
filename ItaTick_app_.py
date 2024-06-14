@@ -387,28 +387,10 @@ if graph_disp == "有" and date_mode == "当日":
     # グラフのサイズを設定
     fig.update_layout(autosize=False, width=1500, height=500)
     
-    col1__, col2__ = st.columns([3, 1])
-    with col1__:
-    # Streamlitでグラフを表示
-        try:
-            st.plotly_chart(fig)
-        except:
-            pass
-
-    with col2__:
-        p1000 = pathlib.Path(seachfile("1000", l2, date_str))
-        df_p1000 = pd.read_parquet(p1000)
-        timelist = [i.strftime('%H:%M') for i in df_p1000.index.get_level_values(1).unique()]
-        #timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
-        time_str = st.select_slider(
-            "板データ時刻",
-            options=timelist)
-    
-    time = datetime.strptime(time_str, '%H:%M').time()
-    # 日付と時間を結合してdatetimeオブジェクトを作成
-    datetime_obj = datetime.combine(date, time)
-    time_max = datetime.strptime(timelist[-1], '%H:%M').time()
-    datetime_obj_max = datetime.combine(date, time_max)
+    try:
+        st.plotly_chart(fig)
+    except:
+        pass
     
     
 elif graph_disp == "有" and date_mode == "複数日指定":
@@ -418,6 +400,22 @@ elif graph_disp == "有" and date_mode == "複数日指定":
 
 ##板表示
 if date_mode == "当日":
+    
+    p1000 = pathlib.Path(seachfile("1000", l2, date_str))
+    df_p1000 = pd.read_parquet(p1000)
+    timelist = [i.strftime('%H:%M') for i in df_p1000.index.get_level_values(1).unique()]
+    #timelist = ["08:45","08:50","08:55","09:00","09:05", "09:10","09:15","09:20","09:25","09:30","09:35","09:40","09:45","09:50","09:55","10:00"]
+    time_str = st.select_slider(
+        "板データ時刻",
+        options=timelist)
+    
+    time = datetime.strptime(time_str, '%H:%M').time()
+    # 日付と時間を結合してdatetimeオブジェクトを作成
+    datetime_obj = datetime.combine(date, time)
+    time_max = datetime.strptime(timelist[-1], '%H:%M').time()
+    datetime_obj_max = datetime.combine(date, time_max)
+    
+
     st.markdown(hide_table_row_index, unsafe_allow_html=True)
     cols = st.columns(5)
     col_index = 0  # 列インデックスを初期化
