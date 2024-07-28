@@ -45,8 +45,8 @@ def seachfile(symbol,list_,date_str_):
     elif str(code).startswith('9'):
         filename = [f for f in l2 if "9000s" in f and date_str in f][0]    
     return filename
-
-def ItaResize(df,ita_num=5):
+  
+def ItaResize(df,ita_num=5,invisible=0):
     import numpy as np
     import pandas as pd
 
@@ -61,8 +61,7 @@ def ItaResize(df,ita_num=5):
     ask_center = df_Ita_["売数量"].dropna(how = "any").index[-1]
     bid_center = df_Ita_["買数量"].dropna(how = "any").index[0]
 
-    if ask_center >bid_center :
-
+    if ask_center > bid_center :
         first = bid_center
         end = ask_center
 
@@ -73,29 +72,27 @@ def ItaResize(df,ita_num=5):
             df_w.loc[end,"売数量"] += abs(market_diff)
 
         for x in range (first,end+1):
-            #print(x,df_w['値段'].loc[x])
-            if df_w['売数量'].loc[x:end].sum() > df_w['買数量'].loc[first:x].sum() and df_w['売数量'].loc[x+1:end].sum() < df_w['買数量'].loc[first:x+1].sum():
-
-                # print("板中心値：",df_w['値段'].loc[x],",x=",x)
-                # print("[中心よりも上(x)]  売数量:",df_w['売数量'].loc[x:end].sum(),"買数量:",df_w['買数量'].loc[first:x].sum())
-                # print("[中心よりも下(x+1)]売数量:",df_w['売数量'].loc[x+1:end].sum(),"買数量:",df_w['買数量'].loc[first:x+1].sum())
-                ask_center = x
+            if df_w['売数量'].loc[x:end].sum() > df_w['買数量'].loc[first:x].sum() and df_w['売数量'].loc[x+1:end].sum() <= df_w['買数量'].loc[first:x+1].sum():
+                #ask_center = x
                 bid_center = x+1
                 break
-            else:
-                ask_center = first
-                bid_center = first+1
+        ask_center = df_w.loc[:x]["買数量"].dropna(how = "any").index[-1]
 
     #板が20本の時
     ask_max = ask_center-(ita_num-1)
     bid_max = bid_center+(ita_num-1)
 
+    #over/under
     ask_over = df_Ita_.iloc[:ask_max]["売数量"].sum()
     ask_over_order = df_Ita_.iloc[:ask_max]["売件数"].sum()
     bid_under = df_Ita_.iloc[bid_max:]["買数量"].sum()
     bid_under_order = df_Ita_.iloc[bid_max:]["買件数"].sum()
 
-
+    #全体
+    ask_all = df_Ita_["売数量"].sum()
+    bid_all = df_Ita_["買数量"].sum()
+   
+    
     # 一番上に追加する行を定義します(OVER)
     top_row = pd.DataFrame({
         '売件数': [ask_over_order],
@@ -115,18 +112,23 @@ def ItaResize(df,ita_num=5):
     }, index=[1000])
 
     df___ = pd.concat([df_market,top_row, df_Ita_.iloc[ask_max:bid_max], bottom_row])
+
+    if invisible==1:
+        df___.loc[ask_center, "売数量"] =  df___.loc[ask_center:]["売数量"].sum()
+        df___.loc[bid_center, "買数量"] =  df___.loc[-1:bid_center]["買数量"].sum()
+        df___.loc[ask_center+1:, "売数量"] =  np.nan
+        df___.loc[-1:bid_center-1, "買数量"] =  np.nan
+
     df____ = df___.fillna(-1)
     df_____ = df____.astype({"売数量":int,"買数量":int,"売件数":int,"買件数":int}).replace(-1,"")
     
+
+
     #一般化したパラメータ
     market_div = df_market["買数量"].iloc[0]/df_market["売数量"].iloc[0]
- 
-    ask_total = df_Ita_.iloc[ask_max:bid_max]["売数量"].sum()+ask_over
-    bid_total = df_Ita_.iloc[ask_max:bid_max]["買数量"].sum()+bid_under
-    bid_over_ask = bid_total / ask_total
-
-    bid_market_over_total= df_market["買数量"].iloc[0]/bid_total
-    ask_market_over_total= df_market["売数量"].iloc[0]/ask_total
+    bid_over_ask = bid_all / ask_all
+    bid_market_over_total= df_market["買数量"].iloc[0]/bid_all
+    ask_market_over_total= df_market["売数量"].iloc[0]/ask_all
 
     div_data = pd.DataFrame({
     '成行比率(買/売)': market_div,
@@ -135,7 +137,15 @@ def ItaResize(df,ita_num=5):
     '成行/累計の比率(売)': ask_market_over_total,
     },index=["値"]).T.reset_index()
     
-    return df_____ ,div_data
+    rep_data = pd.DataFrame({
+    '売数量': ask_all,
+    '買数量': bid_all,
+    '板中心(買最良気配)': df_____.loc[bid_center]["値段"],
+    '成行(買)': df_market["買数量"].iloc[0],
+    '成行(売)': df_market["売数量"].iloc[0],
+    },index=["値"]).T.reset_index()
+
+    return df_____ ,div_data,rep_data
 
 # 小数点以下1桁まで表示
 def custom_format1(x):
