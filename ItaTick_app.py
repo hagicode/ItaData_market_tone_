@@ -224,7 +224,7 @@ with col2_:
     ItaSize_str_ = round(int(ItaSize_str)/2)
     ItaBest = st.radio('最良気配値の表示',['フル板風','スマホアプリ風'],horizontal=True,index=0)
     invisible = 0
-    if ItaBest == "スマホアプリ風"
+    if ItaBest == "スマホアプリ風":
           invisible = 1
   
     ItaOrder_str = st.radio('売買件数表示',['有', '無'],horizontal=True,index=1)
