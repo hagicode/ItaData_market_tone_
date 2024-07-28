@@ -222,6 +222,11 @@ with col2_:
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
+    ItaBest = st.radio('最良気配値の表示',['フル板風','スマホアプリ風'],horizontal=True,index=0)
+    invisible = 0
+    if ItaBest == "スマホアプリ風"
+          invisible = 1
+  
     ItaOrder_str = st.radio('売買件数表示',['有', '無'],horizontal=True,index=1)
  
     FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
@@ -410,7 +415,7 @@ ShowedTime = datetime_obj
 
 for t in range(len(timelist)):
     CurrentTime = ShowedTime + timedelta(minutes=5*(t))
-    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_)
+    Ita = ItaResize(df_p.loc[code].loc[CurrentTime], ItaSize_str_,invisible)
     
     if ItaOrder_str == "無":
             table1 = Ita[0].drop(["売件数","買件数"],axis=1) 
