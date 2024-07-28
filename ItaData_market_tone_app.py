@@ -66,6 +66,11 @@ with col2_:
     st.write("その他設定")
     ItaSize_str = st.text_input("板サイズ(携帯版20行)","10")
     ItaSize_str_ = round(int(ItaSize_str)/2)
+    ItaBest = st.radio('最良気配値の表示',['フル板風','スマホアプリ風'],horizontal=True,index=0)
+    invisible = 0
+    if ItaBest == "スマホアプリ風":
+          invisible = 1
+  
     FontSize_str = st.radio('板の文字サイズ',['小', '中',"大"],horizontal=True,index=1)
     if FontSize_str == "小":
         thFont = '11px'
@@ -311,7 +316,7 @@ with col1:
     code = l_kaiun[0]
     name = DB_serch[DB_serch["コード"]==code]["銘柄名"].iloc[0]
     ShowedTime = datetime_obj
-    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_)
+    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_,invisible)
     try:
         st.write(code,":",name," [",datetime_obj,"]")
         st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -323,7 +328,7 @@ with col2:
     code = l_kaiun[1]
     name = DB_serch[DB_serch["コード"]==code]["銘柄名"].iloc[0]
     ShowedTime = datetime_obj
-    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_)
+    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_,invisible)
     try:
         st.write(code,":",name," [",datetime_obj,"]")
         st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -335,7 +340,7 @@ with col3:
     code = l_kaiun[2]
     name = DB_serch[DB_serch["コード"]==code]["銘柄名"].iloc[0]
     ShowedTime = datetime_obj
-    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_)
+    Ita = ItaResize(df_9000.loc[code].loc[ShowedTime],ItaSize_str_,invisible)
     try:
         st.write(code,":",name," [",datetime_obj,"]")
         st.table(Ita[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -346,13 +351,13 @@ with col3:
 with col4:
     # ShowedTime4 = datetime_obj + timedelta(minutes=5)
     # st.write("銘柄コード：",code,"時刻",ShowedTime4)
-    # st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+    # st.table(ItaResize(df.loc[ShowedTime4],ItaSize_str_,invisible).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
     pass
 with col5:
     pass
     # ShowedTime5 = datetime_obj + timedelta(minutes=10)
     # st.write("銘柄コード：",code,"時刻",ShowedTime5)
-    # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
+    # st.table(ItaResize(df.loc[ShowedTime5],ItaSize_str_,invisible).style.set_table_styles(styles1).format(custom_format1).format(custom_format2))
 
 
 st.subheader('電力',anchor = "section-2")
@@ -365,7 +370,7 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 with col1:
     code1 = l_denryoku[0]
     ShowedTime1 = datetime_obj
-    Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_)
+    Ita1 = ItaResize(df_9000.loc[code1].loc[ShowedTime1],ItaSize_str_,invisible)
     try:
         st.write("銘柄コード：",code1,"時刻",ShowedTime1)
         st.table(Ita1[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -376,7 +381,7 @@ with col1:
 with col2:
     code2 = l_denryoku[1]
     ShowedTime2 = datetime_obj
-    Ita2 = ItaResize(df_9000.loc[code2].loc[ShowedTime1],ItaSize_str_)
+    Ita2 = ItaResize(df_9000.loc[code2].loc[ShowedTime1],ItaSize_str_,invisible)
     try:
         st.write("銘柄コード：",code2,"時刻",ShowedTime2)
         st.table(Ita2[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -387,7 +392,7 @@ with col2:
 with col3:
     code3 = l_denryoku[2]
     ShowedTime3 = datetime_obj
-    Ita3 = ItaResize(df_9000.loc[code3].loc[ShowedTime1],ItaSize_str_)
+    Ita3 = ItaResize(df_9000.loc[code3].loc[ShowedTime1],ItaSize_str_,invisible)
     try:
         st.write("銘柄コード：",code3,"時刻",ShowedTime3)
         st.table(Ita3[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -398,7 +403,7 @@ with col3:
 with col4:
     code4 = l_denryoku[3]
     ShowedTime4 = datetime_obj
-    Ita4 = ItaResize(df_9000.loc[code4].loc[ShowedTime1],ItaSize_str_)
+    Ita4 = ItaResize(df_9000.loc[code4].loc[ShowedTime1],ItaSize_str_,invisible)
     try:
         st.write("銘柄コード：",code4,"時刻",ShowedTime3)
         st.table(Ita4[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
@@ -408,7 +413,7 @@ with col4:
 with col5:
     code5 = l_denryoku[4]
     ShowedTime5 = datetime_obj
-    Ita5 = ItaResize(df_9000.loc[code5].loc[ShowedTime1],ItaSize_str_)
+    Ita5 = ItaResize(df_9000.loc[code5].loc[ShowedTime1],ItaSize_str_,invisible)
     try:
         st.write("銘柄コード：",code5,"時刻",ShowedTime3)
         st.table(Ita5[0].style.set_table_styles(styles2).format(custom_format1).format(custom_format2))
